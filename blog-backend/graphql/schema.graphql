@@ -1,12 +1,11 @@
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
-"Indicates what fields are available at the top level of a query operation."
-type Query {
-   users: [User!]! @all
-   posts: [Posts] @all
-   comments: [Posts] @all
-   user(id:ID @eq): User @find
+type Query{
+  users: [User] @all
+  # user: [User] @find
+  posts: [Posts] @all
+  comments: [Comments] @all
 }
 
 "Account of a person who utilizes this application."
@@ -15,52 +14,48 @@ type User {
     id: ID!
 
     "Non-unique name."
-    name: String!
+    name: String
 
     "Unique email address."
     email: String!
-
+    gender: String!
+    contact_no: String!
+    password: String!
+    file_path: String!
     "When the email was verified."
     email_verified_at: DateTime
 
     "When the account was created."
-    created_at: DateTime!
+    created_at: DateTime
 
     "When the account was last updated."
-    updated_at: DateTime!
-    
-    gender:String
-    contact_no: String
-    file_path: String
-
+    updated_at: DateTime
 }
 type Posts{
-  author: User
-  comments: [Comments!] @hasMany
   id: ID!
   title: String!
   body: String!
-  file_path: String
+  author: User
+  comments: [Comments]
 }
 type Comments{
-  post: Posts! @belongsTo
   id: ID!
-  comment:String!
-  file_path: String!
-  created_at: DateTime!
-  updated_at: DateTime!
-}
-
-type Mutation {
-  createUser(name: String! email: String! gender:String
-    contact_no: String
-    file_path: String
-    password: String
- ): User! @create
+  comment: String!
+  author: User
 }
 type Mutation {
-  updateUser(id: ID!, name: String contact_no: String file_path: String contact_no: String): User @update
-}
-type Mutation {
+  "CRUD User"
+  createUser(name: String! email: String!  gender: String!
+    contact_no: String!
+    password: String!): User! @create
+  updateUser(id: ID!, name: String email: String gender: String): User @update
   deleteUser(id: ID!): User @delete
+  "CRUD posts"
+  createPost(title: String! body: String! user_id:ID!): Posts! @create
+  updatePost(id:ID! title: String body: String): Posts @update
+  deletePost(id:ID!): Posts @delete
+  "CRUD Comments"
+  createComments(comment: String! ): Comments! @create
+  updateComments(id:ID! comment: String): Comments @update
+  deleteComments(id:ID!): Comments @delete
 }
