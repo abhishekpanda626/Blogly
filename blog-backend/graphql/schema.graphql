@@ -51,11 +51,11 @@ type Mutation {
   updateUser(id: ID!, name: String email: String gender: String): User @update
   deleteUser(id: ID!): User @delete
   "CRUD posts"
-  createPost(title: String! body: String! user_id:ID!): Posts! @create
-  updatePost(id:ID! title: String body: String): Posts @update
-  deletePost(id:ID!): Posts @delete
+  createPosts(title: String! body: String! user_id:ID!): Posts! @create
+  updatePosts(id:ID! title: String body: String): Posts @update
+  deletePosts(id:ID!): Posts @delete
   "CRUD Comments"
-  createComments(comment: String! ): Comments! @create
-  updateComments(id:ID! comment: String): Comments @update
+  createComments(comment: String!user_id:ID! ): Comments! @create
+  updateComments(id:ID! comment: String ): Comments @update
   deleteComments(id:ID!): Comments @delete
 }
