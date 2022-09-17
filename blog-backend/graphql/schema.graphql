@@ -3,20 +3,10 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
-    "Find a single user by an identifying attribute."
-    user(
-      "Search by primary key."
-      id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
-
-      "Search by email address."
-      email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
-
-    "List multiple users."
-    users(
-      "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
-      name: String @where(operator: "like")
-    ): [User!]! @paginate(defaultCount: 10)
+   users: [User!]! @all
+   posts: [Posts] @all
+   comments: [Posts] @all
+   user(id:ID @eq): User @find
 }
 
 "Account of a person who utilizes this application."
@@ -38,4 +28,22 @@ type User {
 
     "When the account was last updated."
     updated_at: DateTime!
+    
+    gender:String
+    contact_no: String
+    file_path: String!
+
+}
+type Posts{
+  id: ID!
+  title: String!
+  body: String!
+  file_path: String
+}
+type Comments{
+  id: ID!
+  comment:String!
+  file_path: String!
+  created_at: DateTime!
+  updated_at: DateTime!
 }
