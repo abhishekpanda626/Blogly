@@ -1,1 +1,1 @@
-# BloggyBook
+#Blogly
