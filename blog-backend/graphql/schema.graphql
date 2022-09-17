@@ -31,19 +31,36 @@ type User {
     
     gender:String
     contact_no: String
-    file_path: String!
+    file_path: String
 
 }
 type Posts{
+  author: User
+  comments: [Comments!] @hasMany
   id: ID!
   title: String!
   body: String!
   file_path: String
 }
 type Comments{
+  post: Posts! @belongsTo
   id: ID!
   comment:String!
   file_path: String!
   created_at: DateTime!
   updated_at: DateTime!
+}
+
+type Mutation {
+  createUser(name: String! email: String! gender:String
+    contact_no: String
+    file_path: String
+    password: String
+ ): User! @create
+}
+type Mutation {
+  updateUser(id: ID!, name: String contact_no: String file_path: String contact_no: String): User @update
+}
+type Mutation {
+  deleteUser(id: ID!): User @delete
 }
