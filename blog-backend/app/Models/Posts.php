@@ -16,11 +16,12 @@ class Posts extends Model
     ];
     public function comments(): HasMany
     {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comments::class,'post_id');
     }
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
 }
