@@ -1,3 +1,4 @@
+
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
@@ -8,6 +9,7 @@ type Query{
    post(id: ID @eq): Posts @find
     comment(id: ID @eq):  Comments @find
   comments: [Comments] @all
+  me: User  @auth
 }
 
 "Account of a person who utilizes this application."
@@ -47,17 +49,28 @@ type Comments{
 }
 type Mutation {
   "CRUD User"
-  createUser(name: String! email: String!  gender: String!
-    contact_no: String!
-    password: String!): User! @create
-  updateUser(id: ID!, name: String email: String gender: String): User @update
+  #create
+  createUser(name: String @rules(apply:["required","unique:users"],messages:[{rule:"unique" message:"This name has already taken please provide another one"}]) 
+   email: String @rules(apply: ["required","email","unique:users"] messages:[{rule:"email" message:"Its an invalid email address.Try again"}])
+     gender: String @rules(apply:["required"],messages:[{rule:"required" message:"gender field is required"}])
+    contact_no: String @rules(apply:["required","min:10"]messages:[{rule:"min" message:"Contact no. should be at least of 10 digits."}])
+    password: String @rules(apply: ["required","min:6"]messages:[{rule:"min" message:"Password should be at least of 6 digits."}])): User @create
+  #update
+  updateUser(id: ID!, name: String @rules(apply:["unique:users"],messages:[{rule:"unique" message:"This name has already taken please provide another one"}]) email: String! @rules(apply: ["email","unique:users"] messages:[{rule:"email" message:"Its an invalid email address.Try again"}])
+   email: String @rules(apply: ["email","unique:users"] messages:[{rule:"email" message:"Its an invalid email address.Try again"}{rule:"required" message:"Email id is required"}])
+   gender: String): User @update
+#delete
   deleteUser(id: ID!): User @delete
   "CRUD posts"
-  createPosts(title: String! body: String! user_id:ID!): Posts! @create
-  updatePosts(id:ID! title: String body: String): Posts @update
+  createPosts(title: String @rules(apply:["required"]) body: String @rules(apply:["required","min:4"])  user_id:ID!): Posts! @create
+  updatePosts(id:ID! title: String @rules(apply:["required"]) body: String @rules(apply:["required","min:4"])): Posts @update
   deletePosts(id:ID!): Posts @delete
   "CRUD Comments"
-  createComments(comment: String! user_id:ID! ): Comments! @create
+  createComments(comment: String @rules(apply:["required"]) user_id:ID! ): Comments! @create
   updateComments(id:ID! comment: String ): Comments @update
   deleteComments(id:ID!): Comments @delete
+  #authentication
+   userLogin(email: String @rules(apply:["required","email"]),password: String @rules(apply:["required","min:6"])): String! 
+
+
 }
