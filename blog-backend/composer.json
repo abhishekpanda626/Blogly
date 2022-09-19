@@ -13,10 +13,9 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
-        "laravel/passport": "^10.4",
         "laravel/tinker": "^2.0",
         "mll-lab/laravel-graphql-playground": "^2.6",
-        "nuwave/lighthouse": "^5.60"
+        "nuwave/lighthouse": "^5.61"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
