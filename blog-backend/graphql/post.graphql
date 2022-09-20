@@ -1,0 +1,13 @@
+extend type Query{
+    posts: [Post]! @all
+}
+input PostInput{
+    title:String! @rules(apply:["required"]) 
+    content:String! @rules(apply:["required"])
+    user_id: ID!
+}
+extend type Mutation{
+    createPost(input: PostInput @spread):Post @create  @guard(with: ["api"])
+    updatePost(id:ID! title:String content:String ):Post @update  @guard(with: ["api"])
+    deletePost(id:ID!):Post @delete  @guard(with: ["api"])
+}

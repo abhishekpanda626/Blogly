@@ -10,7 +10,7 @@ type Query {
 
       "Search by email address."
       email: String @eq @rules(apply: ["prohibits:id", "required_without:id", "email"])
-    ): User @find
+    ): User   @find 
 
     "List multiple users."
     users: [User]! @all  @guard(with: ["api"])
@@ -35,6 +35,21 @@ type User {
 
     "When the account was last updated."
     updated_at: DateTime!
+    gender: String!
+    contact_no: String!
+    posts: [Post] @hasMany
+}
+type Post{
+    id:ID!
+    title:String!
+    content: String!
+    author: User @belongsTo
+  comments: [Comment!] @hasMany
+}
+type Comment{
+    id:ID!
+    comment:String!
+    post: Post @belongsTo
 }
 type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
@@ -47,3 +62,5 @@ type Mutation {
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
 }
+#import post.graphql
+#import comment.graphql
