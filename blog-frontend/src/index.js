@@ -2,23 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
 import reportWebVitals from './reportWebVitals';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider
-} from "@apollo/client";
 const client = new ApolloClient({
-  uri: 'https://beta.pokeapi.co/graphql/v1beta',
-  cache: new InMemoryCache()
+  uri: 'http://localhost:8000/graphql',
+  cache: new InMemoryCache(),
 });
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ApolloProvider client={client}>
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
-  </ApolloProvider> 
+  </ApolloProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,39 +1,49 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-export default function Header() {
-
-
-  return (
-    <Navbar sticky="top" bg="success"  variant="dark" expand="lg">
-      <Container fluid="xl">
-        <Navbar.Brand >  <FontAwesomeIcon  />Blogly</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">          
-                 <Nav.Link href='/'>Home</Nav.Link>
-        
-           </Nav>
-           </Navbar.Collapse >
-          
-<Navbar.Collapse className="justify-content-end text-white" >
-<FontAwesomeIcon icon={faUser} />&nbsp;
+    
+ import Container from 'react-bootstrap/Container';
+ import Navbar from 'react-bootstrap/Navbar';
+ import NavDropdown from 'react-bootstrap/NavDropdown';
+ import Dropdown from 'react-bootstrap/Dropdown';
+ import Image from 'react-bootstrap/Image';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faBlog } from '@fortawesome/free-solid-svg-icons';
+  import { faUser } from '@fortawesome/free-solid-svg-icons'
+  import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+export default function Header()
+{
+    const UserMenu = (
+        <Image
+          src={'https://github.com/mshaaban0.png'}
+          alt="UserName profile image"
+          roundedCircle
+          style={{ width: '30px' }}
+        />
+      )
+    return(
+    <>
+    <Navbar sticky='top' style={{background:"#3b5998"}} variant='dark'>
+      <Container fluid="xxl">
+        <Navbar.Brand  href="#home"> <FontAwesomeIcon icon={faBlog}/>Blogly</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+        <NavDropdown
               
-<NavDropdown title="" id="basic-nav-dropdown">             
-              <NavDropdown.Item href="/student/profile">Dashboard</NavDropdown.Item>
-              <NavDropdown.Item >
-                Logout <FontAwesomeIcon icon={faRightFromBracket} />
+              title={UserMenu}
+              menuVariant="dark"
+              bg="muted"
+              drop="start"
+            >
+              <NavDropdown.Item href="#action/3.1"> <FontAwesomeIcon icon={faUser}/>Profile</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+              <FontAwesomeIcon icon={faRightFromBracket}/>logout
               </NavDropdown.Item>
+              
             </NavDropdown>
-            
+
         </Navbar.Collapse>
-       </Container>
+      </Container>
     </Navbar>
-  );
+
+    
+    </>);
 }
