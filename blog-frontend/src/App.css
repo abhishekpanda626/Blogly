@@ -67,31 +67,39 @@
 .hello {
   margin-top: 40px;
   text-align: center;
-  color: #2a2739;
+  color: rgba(0, 162, 8, 0.452);
+  font-family:Audiowide, sans-serif;
+}
+#signup{
+  margin-top: 20px;
+  text-align: center;
+  color: rgba(0, 162, 8, 0.452);
+  font-family:Audiowide,sans-serif;
+  font-weight:bold;
 }
 .hello h4 {
   margin-top: 5px;
 }
 .input_text {
   position: relative;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 input[type="text"] {
-  height: 45px;
+  height: 42px;
   width: 100%;
   border: none;
   outline: 0;
-  padding: 0 10px;
+  padding: 0 30px;
   font-size: 13px;
   border-radius: 10px;
   border: 1px solid #fff;
 }
 input[type="password"] {
-  height: 45px;
+  height: 42px;
   width: 100%;
   border: none;
   outline: 0;
-  padding: 0 10px;
+  padding: 0 30px;
   font-size: 13px;
   border-radius: 10px;
   padding-right: 33px;
@@ -111,17 +119,35 @@ input[type="password"] {
 }
 .fa-eye-slash {
   position: absolute;
-  top: 15px;
+  top: 12px;
   right: 8px;
   cursor: pointer;
   color: #727286;
 }
 .fa-eye {
   position: absolute;
-  top: 15px;
+  top: 12px;
   right: 8px;
   cursor: pointer;
   color: #727286;
+}
+.fa-envelope {
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  color: #e4ac74;
+}
+.fa-lock,.fa-user,.fa-phone {
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  color: #e4ac74;
+}
+.fa-circle-check {
+  position: absolute;
+  left: 8px;
+  top: 64px;
+  color: #e4ac74;
 }
 .recovery {
   margin-top: 15px;
@@ -140,8 +166,9 @@ input[type="password"] {
   border-radius: 10px;
   transition: all 0.5s;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 20px;
   color: #fff;
+  font-weight: bold;
 }
 .btn-login button:hover {
   background-color: #f1221e;
@@ -205,4 +232,16 @@ input[type="password"] {
   .container .card .left-side {
     display: none;
   }
+}
+
+input[type="radio"]
+{
+  accent-color: red;
+}
+
+::placeholder {
+  
+  font-size: 15px;
+  color: rgb(161, 180, 227);
+  opacity: 1; /* Firefox */
 }
