@@ -67,7 +67,7 @@ function validatePassword(password){
   }
   return (
     <>
-      <div className="container">
+      <div className="my-container">
         <div className="card">
           <div className="form">
             <div className="left-side">
@@ -89,7 +89,7 @@ function validatePassword(password){
                 <div className="input_text">
                   <FontAwesomeIcon icon={faEnvelope} />{" "}
                   <input
-                    className={` ${warnemail ? "warning" : ""}`}
+                    className={` input ${warnemail ? "warning" : ""}`}
                     type="text"
                     name="email"
                     placeholder="Enter  e-mail address."

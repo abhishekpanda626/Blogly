@@ -49,7 +49,7 @@ export default function Signup() {
   }
   return (
     <>
-      <div className="container">
+      <div className="my-container">
         <div className="card">
           <div className="form">
             <div className="left-side">
@@ -74,12 +74,13 @@ export default function Signup() {
                     placeholder="Enter Name"
                     name="name"
                     onChange={(e) => setName(e.target.value)}
+                    className={`input`}
                   />
                 </div>{" "}
                 <div className="input_text">
                   <FontAwesomeIcon icon={faEnvelope} />
                   <input
-                    className={` ${warnemail ? "warning" : ""}`}
+                    className={`input ${warnemail ? "warning" : ""}`}
                     type="text"
                     placeholder="Enter Email"
                     name="email"
@@ -96,28 +97,30 @@ export default function Signup() {
                     placeholder="Enter Contact no."
                     name="contact"
                     onChange={(e) => setContact(e.target.value)}
+                    className={`input`}
                   />
                 </div>
                 <div className="input_text">
-                    <span className="text-muted m-1">Gender:&emsp;
-                  <label className="gender">Male</label>{" "}
-                  <input
-                    type="radio"
-                    name="gender"
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  &nbsp; <label className="gender">Female</label>{" "}
-                  <input
-                    type="radio"
-                    name="gender"
-                    onChange={(e) => setGender(e.target.value)}
-                  />
-                  </span> 
+                  <span className="text-muted m-1">
+                    Gender:&emsp;
+                    <label className="gender">Male</label>{" "}
+                    <input
+                      type="radio"
+                      name="gender"
+                      onChange={(e) => setGender(e.target.value)}
+                    />
+                    &nbsp; <label className="gender">Female</label>{" "}
+                    <input
+                      type="radio"
+                      name="gender"
+                      onChange={(e) => setGender(e.target.value)}
+                    />
+                  </span>
                 </div>
                 <div className="input_text">
                   <FontAwesomeIcon icon={faLock} />
                   <input
-                    className={` ${warnpass ? "warning" : ""}`}
+                    className={` input ${warnpass ? "warning" : ""}`}
                     type={eye ? "text" : "password"}
                     placeholder="Enter Password"
                     name="password"
@@ -133,6 +136,11 @@ export default function Signup() {
                     type="password"
                     placeholder="Confirm Password"
                     name="confirm"
+                    onPaste={(e)=>{
+                      e. preventDefault()
+                      alert("You can't paste anything here")
+                      return false;
+                      }} 
                     onChange={(e) => setConfirm(e.target.value)}
                   />
                 </div>
