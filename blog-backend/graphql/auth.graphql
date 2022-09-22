@@ -1,6 +1,6 @@
 input LoginInput {
     username: String! @rules(apply: ["required", "email",], messages:[{rule:"required" message:"Email is required"}{rule:"Please Enter a valid Email Id"}])
-    password: String! @rules(apply: ["required"])
+    password: String! @rules(apply: ["required,min:8"],messages:[{rule:"required" message:"Password is required"}{rule:"min" message:"Password should be minimum of 8 character."}])
 }
 
 input RefreshTokenInput {
