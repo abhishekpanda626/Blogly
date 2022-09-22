@@ -10,7 +10,11 @@ import { faBlog, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+
 export default function Header() {
+  const navigate=useNavigate();
+  const token=localStorage.getItem("access-token");
   const UserMenu = (
     <Image
       src={"https://github.com/mshaaban0.png"}
@@ -19,6 +23,10 @@ export default function Header() {
       style={{ width: "35px" }}
     />
   );
+  const logOutHandler=()=>{
+    localStorage.clear();
+    navigate('/');
+  }
   return (
     <>
       <Navbar sticky="top" style={{ background: "#3b5998" }} variant="dark">
@@ -38,23 +46,31 @@ export default function Header() {
             />{" "}
           </Nav.Link>
           <Navbar.Collapse className="justify-content-end">
-            <NavDropdown
-              title={UserMenu}
-              // menuVariant="dark"
-              bg="muted"
-              drop="start"
-            >
-              <NavDropdown.Item href="/profile">
-                {" "}
-                <FontAwesomeIcon icon={faUserTie} />
-                Profile
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                <FontAwesomeIcon icon={faRightFromBracket} />
-                logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Navbar.Collapse>
+  {
+    token?
+    
+   
+    <NavDropdown
+      title={UserMenu}
+      // menuVariant="dark"
+      bg="muted"
+      drop="start"
+    >
+      <NavDropdown.Item href="/profile">
+        {" "}
+        <FontAwesomeIcon icon={faUserTie} />
+        Profile
+      </NavDropdown.Item>
+      <NavDropdown.Item onClick={logOutHandler}>
+        <FontAwesomeIcon icon={faRightFromBracket} />
+        logout
+      </NavDropdown.Item>
+    </NavDropdown>
+
+  :
+  null
+  }
+  </Navbar.Collapse>
         </Container>
       </Navbar>
     </>

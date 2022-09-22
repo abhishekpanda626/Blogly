@@ -3,6 +3,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 scalar Upload
   @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 "Indicates what fields are available at the top level of a query operation."
+
 type Query {
     "Find a single user by an identifying attribute."
     user(
@@ -16,7 +17,6 @@ type Query {
     "List multiple users."
     users: [User]! @all 
 }
-
 "Account of a person who utilizes this application."
 type User {
     "Unique primary key."
@@ -40,18 +40,8 @@ type User {
     contact_no: String!
     posts: [Post] @hasMany
 }
-type Post{
-    id:ID!
-    title:String!
-    content: String!
-    author: User @belongsTo
-  comments: [Comment!] @hasMany
-}
-type Comment{
-    id:ID!
-    comment:String!
-    post: Post @belongsTo
-}
+
+
 type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
@@ -63,5 +53,6 @@ type Mutation {
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
 }
+#import user.graphql
 #import post.graphql
 #import comment.graphql

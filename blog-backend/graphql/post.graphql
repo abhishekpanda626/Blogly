@@ -1,5 +1,19 @@
 extend type Query{
     posts: [Post]! @all 
+    post(
+      "Search by primary key."
+      id: ID @eq @rules(apply: ["prohibits:email", "required_without:title"])
+
+      "Search by title."
+      title: String @eq @rules(apply: ["prohibits:id", "required_without:id"])
+    ): Post   @find @guard(with: ["api"])
+}
+type Post{
+    id:ID!
+    title:String!
+    content: String!
+    author: User @belongsTo
+  comments: [Comment!] @hasMany
 }
 input PostInput{
     title:String! @rules(apply:["required"]) 

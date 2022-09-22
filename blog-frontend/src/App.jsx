@@ -10,25 +10,27 @@ import { useQuery, gql } from '@apollo/client';
 import ShowPost from './Component/Post/ShowPost';
 import AddComment from './Component/Comment/AddComment';
 import ShowComment from './Component/Comment/ShowComment';
+import Protected from './Protected';
 function App() {
   return (
     <Router>
   <Header/>
     <Routes>
-      <Route exact path="/profile" element={<Account/>}>
-      </Route>
+
+      
       <Route exact path="/" element={<UserLogin/>}/>
+      <Route exact path="*" element={<UserLogin/>}/>
       <Route exact path="/signIn" element={<UserLogin/>}/>
       <Route exact path="/signUp" element={<Signup/>}/>
       
-
-      <Route exact path="/post/add" element={<AddPost/>}/>
+    <Route element={<Protected/>}>
+    <Route exact path="/profile" element={<Account/>}/>
+    <Route exact path="/post/add" element={<AddPost/>}/>
       <Route exact path="/post/show" element={<ShowPost/>}/>
       <Route exact path="/comment/add" element={<ShowPost/>}/>
       <Route exact path="/comment/show" element={<ShowPost/>}/>
-      
-
-
+    </Route>
+     
     </Routes>
     </Router>
     

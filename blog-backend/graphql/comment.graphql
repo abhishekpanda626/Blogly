@@ -1,5 +1,6 @@
 extend type Query{
     comments: [Comment]! @all  @guard(with: ["api"])
+    
 }
 input CommentInput{
    comment:String! @rules(apply:["required"])
@@ -9,4 +10,9 @@ extend type Mutation{
     createComment(input:CommentInput @spread):Comment @create  @guard(with: ["api"])
     updateComment(id:ID! comment:String):Comment @update  @guard(with: ["api"])
     deleteComment(id:ID!):Comment @delete  @guard(with: ["api"])
+}
+type Comment{
+    id:ID!
+    comment:String!
+    post: Post @belongsTo
 }

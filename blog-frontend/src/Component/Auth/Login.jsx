@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, gql } from '@apollo/client';
 import {
   faEnvelope,
   faEye,
@@ -8,9 +9,29 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import "../../App.css";
-export default function UserLogin() {
-  const [email, setEmail] = useState("");
+import { GraphQLError } from "graphql";
+const SIGN_IN= gql`
+mutation Login($email:String!,$pass:String!){
+  login(input:{username:$email,password:$pass}){
+    access_token
+    user{
+      id
+      name email contact_no gender 
+      posts{
+        comments{
+          id
+          comment
+          
+        }
+      }
+    }
+  }
+}
 
+`;
+const UserLogin=()=> {
+  const [Login] =useMutation(SIGN_IN);
+  const [email, setEmail] = useState("");
   const [warnemail, setwarnemail] = useState(false);
   const [warnpass, setwarnpass] = useState(false);
   const [danger, setdanger] = useState(true);
@@ -52,10 +73,14 @@ function validatePassword(password){
 
   function loginHandler(e) {
     e.preventDefault();
-    if(ValidateEmail() && validatePassword() )
-    {alert("loggedin");}
-    else
-    alert("no")
+   Login({variables:{email:email,pass:pass}})
+   .then((data)=>{
+    localStorage.setItem("access-token",data.data.login.access_token)
+  
+  })
+   .catch((err)=>console.log(err));
+   // console.log(email,pass)
+
   }
   function showPassword() {
     if (eye) {
@@ -110,6 +135,7 @@ function validatePassword(password){
                     name="password"
                     onBlur={(e)=>validatePassword(e.target.value)}
                     onChange={(e) => setPass(e.target.value)}
+                    id="text"
                   />
                   <FontAwesomeIcon
                     onClick={showPassword}
@@ -135,3 +161,4 @@ function validatePassword(password){
     </>
   );
 }
+export default UserLogin;

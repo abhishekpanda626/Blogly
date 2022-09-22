@@ -1,14 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
+import { useQuery, gql } from '@apollo/client';
+const POSTS = gql`
+query  get__posts{
+       posts{
+        title
+        content
+        author{
+           name
+           email
+        }
+    }
+   }
+`;
+
 export default function ShowPost()
 {
+ 
+
+    const {loading,error,data}=useQuery(POSTS);
+    if (loading) return <p>Loading...</p>;
+     if(error) console.log(error);
+     console.log(data);
+
+ 
+
+
     function clickHandler()
     {
         alert("Clicked")
     }
     return(
         <>
+    
         <div className='x-container'>
             <table>
                 <tr>

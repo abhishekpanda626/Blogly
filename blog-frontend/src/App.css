@@ -84,7 +84,7 @@
   position: relative;
   margin-top: 16px;
 }
-.input[type="text"] {
+.input[type="text"],#text {
   height: 42px;
   width: 100%;
   border: none;
