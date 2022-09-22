@@ -14,7 +14,7 @@ type Query {
     ): User   @find 
 
     "List multiple users."
-    users: [User]! @all  @guard(with: ["api"])
+    users: [User]! @all 
 }
 
 "Account of a person who utilizes this application."

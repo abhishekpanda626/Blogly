@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useMutation, gql } from '@apollo/client';
 import {
   faCheck,
   faCircleCheck,
@@ -9,15 +10,33 @@ import {
   faMobile,
   faPhone,
   faUser,
+  faWarning,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-export default function Signup() {
+const ADD_NEW_USER= gql`
+mutation Register($name:String!,$email:String!,$password:String!,$confirm:String!,$gender:String!,$contact:String!)
+{
+  register(input:{
+    name:$name
+    email:$email
+    password:$password
+    password_confirmation:$confirm
+    gender:$gender
+    contact_no:$contact
+  })
+  {
+    status
+  }
+}
+
+`;
+ const Signup=()=> {
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-
   const [warnemail, setwarnemail] = useState(false);
   const [warnpass, setwarnpass] = useState(false);
   const [danger, setdanger] = useState(true);
@@ -28,16 +47,20 @@ export default function Signup() {
   const [showPass, setShowPass] = useState("");
   const [eye, seteye] = useState(false);
   const [pass, setPass] = useState("");
+  const [Register] =useMutation(ADD_NEW_USER);
 
-  function submitForm() {
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "you're signed up..",
-      text: "Please login with your credential for access.",
-      timer: 3000,
-    });
-    navigate("/signIn");
+  function submitForm(e) {
+    e.preventDefault();
+
+     Register({  variables:{name:name,email:email,password:pass,confirm:confirm,gender:gender,contact:contact}});
+    // Swal.fire({
+    //   position: "center",
+    //   icon: "success",
+    //   title: "you're signed up..",
+    //   text: "Please login with your credential for access.",
+    //   timer: 3000,
+    // });
+    // navigate("/signIn");
   }
   function showPassword() {
     if (eye) {
@@ -66,7 +89,7 @@ export default function Signup() {
                 <h2> Welcome</h2>
               </div>
 
-              <form onSubmit={submitForm}>
+              <form onSubmit={(e)=>submitForm(e)}>
                 <div className="input_text">
                   <FontAwesomeIcon icon={faUser} />
                   <input
@@ -87,7 +110,7 @@ export default function Signup() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <p className={` ${danger ? "danger" : ""}`}>
-                    <FontAwesomeIcon icon="fa-solid fa-triangle-exclamation" />{" "}
+                    <FontAwesomeIcon icon={faWarning}/>{" "}
                   </p>
                 </div>
                 <div className="input_text">
@@ -107,13 +130,13 @@ export default function Signup() {
                     <input
                       type="radio"
                       name="gender"
-                      onChange={(e) => setGender(e.target.value)}
+                      onChange={(e) => setGender("Male")}
                     />
                     &nbsp; <label className="gender">Female</label>{" "}
                     <input
                       type="radio"
                       name="gender"
-                      onChange={(e) => setGender(e.target.value)}
+                      onChange={(e) => setGender("Female")}
                     />
                   </span>
                 </div>
@@ -157,3 +180,4 @@ export default function Signup() {
     </>
   );
 }
+export default Signup;

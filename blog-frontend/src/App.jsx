@@ -6,6 +6,7 @@ import Home from './Component/Home';
 import UserLogin from './Component/Auth/Login';
 import Account from './Component/User/Account';
 import AddPost from './Component/Post/AddPost';
+import { useQuery, gql } from '@apollo/client';
 import ShowPost from './Component/Post/ShowPost';
 import AddComment from './Component/Comment/AddComment';
 import ShowComment from './Component/Comment/ShowComment';
@@ -38,32 +39,40 @@ function App() {
 
 export default App;
 // import { useQuery, gql } from '@apollo/client';
-
+// import React, { useState, useEffect } from 'react';
 // export default function App() {
+//   const [id,setId]=useState("");
 
-//   const GET_LOCATIONS = gql`
-//   query GetLocations {
-//     users {
+//   const Get_Users = gql`
+//   query  get_user{
+//     users{
 //       id
-//       name
-//       email
-//       gender
+//      name
+//        email
+//        gender
+//        posts{
+//         title
+//         comments{
+//           comment
+//         }
+//       }
 //     }
-//   }
+//    }
 // `;
-// function DisplayLocations() {
-//   const { loading, error, data } = useQuery(GET_LOCATIONS);
+// function DisplayUsers() {
+// const { loading, error, data } = useQuery(Get_Users);
 
-//   if (loading) return <p>Loading...</p>;
-//   if (error) return <p>Error :(</p>;
+//   if (loading) return <p>Loading... {console.log(loading)}  </p>;
+//   if (error) return <p>Error :( {console.log(error.graphQLErrors)}  </p>;
 
-//   return data.locations.map(({ id, name, email, gender }) => (
+//   return data.users.map(({ id, name, email, gender }) => (
+    
 //     <div key={id}>
 //       <h3>{name}</h3>
       
 //       <br />
-//       <b>About this location:</b>
-//       <p>{email}{gender}</p>
+//       <b>Details:</b>
+//       <p>{email} <br /> {gender}</p>
 //       <br />
 //     </div>
 //   ));
@@ -73,7 +82,7 @@ export default App;
 //     <div>
 //       <h2>My first Apollo app 🚀</h2>
 //       <br />
-//       <DisplayLocations />
+//       <DisplayUsers />
 //     </div>
 //   );
 // }
