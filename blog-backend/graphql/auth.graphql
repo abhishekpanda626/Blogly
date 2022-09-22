@@ -1,5 +1,5 @@
 input LoginInput {
-    username: String! @rules(apply: ["required", "email",])
+    username: String! @rules(apply: ["required", "email",], messages:[{rule:"required" message:"Email is required"}{rule:"Please Enter a valid Email Id"}])
     password: String! @rules(apply: ["required"])
 }
 
