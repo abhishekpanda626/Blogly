@@ -15,6 +15,6 @@ extend type Mutation{
 type Comment{
     id:ID!
     comment:String!
-    post: Post @belongsTo
-    by: User @belongsTo
+    post: PostComment @belongsTo
+    author: UserComment @belongsTo
 }

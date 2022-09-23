@@ -38,8 +38,8 @@ type User {
     updated_at: DateTime!
     gender: String!
     contact_no: String!
-    post: [Post] @hasMany
-    comment:[Comment] @hasMany
+    post: [UserPost] @hasMany
+    comment:[UserComment] @hasMany
 }
 type UserPost{
   author: User @belongsTo
