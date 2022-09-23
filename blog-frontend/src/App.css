@@ -20,6 +20,7 @@
   font-family: "Source Sans Pro", sans-serif;
   border-radius: 10px;
 }
+
 .my-container .card .form {
   width: 100%;
   height: 100%;
@@ -46,6 +47,58 @@
   border-bottom-right-radius: 10px;
   padding: 20px;
 }
+/* Signup  css */
+
+.sign-up-my-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #e2cf81;
+}
+.sign-up-my-container .card {
+  height: 690px;
+  width: 800px;
+  background-color: #fff;
+  position: relative;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  font-family: "Source Sans Pro", sans-serif;
+  border-radius: 10px;
+}
+
+.sign-up-my-container .card .form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.sign-up-my-container .card .sign-up-left-side {
+  width: 50%;
+  background-color: #000;
+  height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+}
+.sign-up-left-side img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.sign-up-my-container .card .sign-up-right-side {
+  width: 50%;
+  background-color: #efecf2;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 20px;
+}
+/* ends here */
+
+
+
+
+
+
 .main {
   display: none;
 }
@@ -93,8 +146,9 @@
   font-size: 13px;
   border-radius: 10px;
   border: 1px solid #fff;
+
 }
-input[type="password"] {
+input[type="password"],input[type="email"] {
   height: 42px;
   width: 100%;
   border: none;
@@ -111,10 +165,18 @@ input[type="password"] {
   margin-left: 10px;
   color: red;
 }
+.show::placeholder{
+  color: red;
+}
 .danger {
   display: none;
 }
-
+.hide {
+  display:none
+}
+.show{
+  color: red;
+}
 .fa-eye-slash {
   position: absolute;
   top: 12px;
@@ -153,7 +215,7 @@ input[type="password"] {
 .fa-circle-check {
   position: absolute;
   left: 8px;
-  top: 64px;
+  top: 12px;
   color: #e4ac74;
 }
 .recovery {

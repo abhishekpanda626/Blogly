@@ -1,6 +1,23 @@
 input LoginInput {
-    username: String! @rules(apply: ["required", "email",], messages:[{rule:"required" message:"Email is required"}{rule:"Please Enter a valid Email Id"}])
-    password: String! @rules(apply: ["required,min:8"],messages:[{rule:"required" message:"Password is required"}{rule:"min" message:"Password should be minimum of 8 character."}])
+    username: String!
+        @rules(
+            apply: ["required", "email"]
+            messages: [
+                { rule: "required", message: "Email is required" }
+                { rule: "email", message: "Please Enter a valid Email Id" }
+            ]
+        )
+    password: String!
+        @rules(
+            apply: ["required", "min:8"]
+            messages: [
+                { rule: "required", message: "Password is required" }
+                {
+                    rule: "min"
+                    message: "Password should be minimum of 8 character."
+                }
+            ]
+        )
 }
 
 input RefreshTokenInput {
@@ -65,12 +82,72 @@ input NewPasswordWithCodeInput {
 }
 
 input RegisterInput {
-    name: String! @rules(apply: ["required", "string"])
-    email: String! @rules(apply: ["required", "email", "unique:users,email"])
-    password: String! @rules(apply: ["required", "confirmed", "min:8"])
-    password_confirmation: String!
-    gender: String @rules(apply:["required"])
-    contact_no: String @rules (apply:["required"])
+    name: String!
+        @rules(
+            apply: ["required", "string"]
+            messages: [
+                { rule: "required", message: "user name is required" }
+                {
+                    rule: "string"
+                    message: "user name should be of string value."
+                }
+            ]
+        )
+    email: String!
+        @rules(
+            apply: ["required", "email", "unique:users,email"]
+            messages: [
+                { rule: "required", message: "email  is required" }
+                {
+                    rule: "unique"
+                    message: "This email is already taken can't add duplicate value"
+                }
+                { rule: "email", message: "Invalid email address" }
+            ]
+        )
+    password: String!
+        @rules(
+            apply: ["required", "confirmed", "min:8"]
+            messages: [
+                {
+                    rule: "confirmed"
+                    message: "Password doesn't match with confirm password"
+                }
+                { rule: "required", message: "Password is required" }
+                {
+                    rule: "min"
+                    message: "Password should be minimum of 8 characters."
+                }
+            ]
+        )
+    password_confirmation: String!  @rules(
+            apply: ["required", "min:8"]
+            messages: [
+               
+                { rule: "required", message: "Confirm password is required" }
+                {
+                    rule: "min"
+                    message: "Password should be minimum of 8 characters."
+                }
+            ]
+        )
+    gender: String
+        @rules(
+            apply: ["required"]
+            messages: [{ rule: "required", message: "gender is required" }]
+        )
+    contact_no: String
+        @rules(
+            apply: ["required", "min:10", "numeric"]
+            messages: [
+                { rule: "required", message: "contact no. is required" }
+                { rule: "min", message: "Contact no. should be of 10 digits" }
+                {
+                    rule: "numeric"
+                    message: "Contact no. should be a numeric value."
+                }
+            ]
+        )
 }
 
 input SocialLoginInput {
@@ -87,4 +164,3 @@ input UpdatePassword {
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }
-

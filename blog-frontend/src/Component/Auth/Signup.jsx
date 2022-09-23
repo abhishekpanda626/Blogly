@@ -37,9 +37,6 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [warnemail, setwarnemail] = useState(false);
-  const [warnpass, setwarnpass] = useState(false);
-  const [danger, setdanger] = useState(true);
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [gender, setGender] = useState("");
@@ -47,20 +44,66 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
   const [showPass, setShowPass] = useState("");
   const [eye, seteye] = useState(false);
   const [pass, setPass] = useState("");
-  const [Register] =useMutation(ADD_NEW_USER);
+  const [emailError,setEmailError]=useState("");
+  const [nameError,setNameError]=useState("");
+  const [passError,setPassError]=useState("");
+  const [genderError,setGenderError]=useState("");
+  const [confirmError,setConfirmError]=useState("");
+  const [contactError,setContactError]=useState("");
+  const [Register,{loading,error,data}] =useMutation(ADD_NEW_USER,{errorPolicy:"all"});
 
-  function submitForm(e) {
+  const submitForm=(e)=> {
     e.preventDefault();
 
      Register({  variables:{name:name,email:email,password:pass,confirm:confirm,gender:gender,contact:contact}});
-    // Swal.fire({
-    //   position: "center",
-    //   icon: "success",
-    //   title: "you're signed up..",
-    //   text: "Please login with your credential for access.",
-    //   timer: 3000,
-    // });
-    // navigate("/signIn");
+ 
+    if(data)
+    {
+
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "you're signed up..",
+      text: "Please login with your credential for access.",
+      timer: 3000,
+    });
+    navigate("/signIn");
+    }
+    else if(error)
+    {
+      if(error.graphQLErrors[0].extensions.category==="validation")
+      {
+        
+        setNameError(error.graphQLErrors[0].extensions.validation["input.name"]);
+        setEmailError(error.graphQLErrors[0].extensions.validation["input.email"]);
+        setGenderError(error.graphQLErrors[0].extensions.validation["input.gender"]);
+        setPassError(error.graphQLErrors[0].extensions.validation["input.password"]);
+        setConfirmError(error.graphQLErrors[0].extensions.validation["input.password_confirmation"]);
+        setContactError(error.graphQLErrors[0].extensions.validation["input.contact_no"]);
+        setTimeout(()=>{
+          setNameError("")
+          setGenderError("")
+          setContactError("")
+          setPassError("")
+          setConfirmError("")
+          setEmailError("")
+         },3000)
+       }
+     
+     
+      else{
+
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Some error occurred",
+      text:"Plase try again",
+      timer: 3000,
+    });
+   
+      }
+    }
+   
   }
   function showPassword() {
     if (eye) {
@@ -72,14 +115,14 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
   }
   return (
     <>
-      <div className="my-container">
+      <div className="sign-up-my-container">
         <div className="card">
           <div className="form">
-            <div className="left-side">
+            <div className="sign-up-left-side">
               <img src="https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YmxvZyUyMGJhY2tncm91bmR8ZW58MHx8MHx8&w=1000&q=80" />
             </div>
 
-            <div className="right-side">
+            <div className="sign-up-right-side">
               <div className="register">
                 <p>
                   Already a Member? <a href="/signIn">Sign in</a>
@@ -89,86 +132,112 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
                 <h2> Welcome</h2>
               </div>
 
-              <form onSubmit={(e)=>submitForm(e)}>
+              <form >
                 <div className="input_text">
                   <FontAwesomeIcon icon={faUser} />
                   <input
                     type="text"
-                    placeholder="Enter Name"
+                    placeholder="Enter user name"
                     name="name"
-                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                    onChange={(e) => {setName(e.target.value)}}
                     className={`input`}
+                   
                   />
-                </div>{" "}
+                   <p className={` ${!nameError ? "danger" : "show"}`}>
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {nameError}
+                  </p>
+                </div>
+                
                 <div className="input_text">
                   <FontAwesomeIcon icon={faEnvelope} />
                   <input
-                    className={`input ${warnemail ? "warning" : ""}`}
+                    className={`input`}
                     type="text"
-                    placeholder="Enter Email"
+                    placeholder="Enter Email Address"
                     name="email"
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <p className={` ${danger ? "danger" : ""}`}>
-                    <FontAwesomeIcon icon={faWarning}/>{" "}
+               <p className={` ${!emailError ? "danger" : "show"}`}>
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {emailError}
                   </p>
                 </div>
                 <div className="input_text">
                   <FontAwesomeIcon icon={faPhone} />
                   <input
                     type="text"
-                    placeholder="Enter Contact no."
+                    placeholder="Enter Contact no"
                     name="contact"
+                    value={contact}
                     onChange={(e) => setContact(e.target.value)}
-                    className={`input`}
+                    className={`input `}
                   />
+                  <p className={` ${!contactError ? "danger" : "show"}`}>
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {contactError}
+                  </p>
                 </div>
-                <div className="input_text">
-                  <span className="text-muted m-1">
+                <div className={`input_text `}>
+                  <small className="text-muted m-1">
                     Gender:&emsp;
-                    <label className="gender">Male</label>{" "}
+                    <label className="gender">Male</label> &nbsp;
                     <input
                       type="radio"
                       name="gender"
+                      
                       onChange={(e) => setGender("Male")}
                     />
-                    &nbsp; <label className="gender">Female</label>{" "}
+                     &emsp;
+                    <label className="gender">Female</label> &nbsp;
                     <input
                       type="radio"
                       name="gender"
                       onChange={(e) => setGender("Female")}
                     />
-                  </span>
+                    &emsp;
+                  <span className={` ${!genderError?"danger":"show"}`}><FontAwesomeIcon   icon={faWarning} size="sm"/> {genderError}</span>
+                  </small>
                 </div>
+              
                 <div className="input_text">
                   <FontAwesomeIcon icon={faLock} />
                   <input
-                    className={` input ${warnpass ? "warning" : ""}`}
+                   className={`input ` }
                     type={eye ? "text" : "password"}
                     placeholder="Enter Password"
                     name="password"
+                    value={pass}
                     onChange={(e) => setPass(e.target.value)}
                   />
                   <FontAwesomeIcon
                     onClick={showPassword}
                     icon={eye ? faEyeSlash : faEye}
                   />
-                  <FontAwesomeIcon icon={faCircleCheck} />{" "}
+                 
+                  <p className={` ${!passError ? "danger" : "show"}`}>
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {passError}
+                  </p>
+                  </div> <div className="input_text">
+                  <FontAwesomeIcon icon={faCircleCheck} />
                   <input
-                    style={{ marginTop: "10px" }}
+                    
                     type="password"
                     placeholder="Confirm Password"
                     name="confirm"
+                    value={confirm}
                     onPaste={(e)=>{
                       e. preventDefault()
-                      alert("You can't paste anything here")
-                      return false;
+                      setConfirmError("You can't paste anything here")
+                      setTimeout(()=>{setConfirmError("")},3000)
                       }} 
                     onChange={(e) => setConfirm(e.target.value)}
                   />
+                     <p className={` ${!confirmError ? "danger" : "show"}`}>
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {confirmError}
+                  </p>
                 </div>
                 <div className="btn-login">
-                  <button type="submit">Sign up</button>
+                  <button type="button" onClick={(e)=>submitForm(e)}>Sign up</button>
                 </div>
               </form>
 

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, ApolloError } from '@apollo/client';
+import Swal from "sweetalert2";
 import {
   faEnvelope,
   faEye,
@@ -10,6 +11,8 @@ import {
 import React, { useState, useEffect } from "react";
 import "../../App.css";
 import { GraphQLError } from "graphql";
+import {  useNavigate } from "react-router-dom";
+import { Input } from "react-bootstrap-form";
 const SIGN_IN= gql`
 mutation Login($email:String!,$pass:String!){
   login(input:{username:$email,password:$pass}){
@@ -30,7 +33,7 @@ mutation Login($email:String!,$pass:String!){
 
 `;
 const UserLogin=()=> {
-  const [Login] =useMutation(SIGN_IN);
+  const [Login,{loading,error,data}] =useMutation(SIGN_IN,{errorPolicy:"all"});
   const [email, setEmail] = useState("");
   const [warnemail, setwarnemail] = useState(false);
   const [warnpass, setwarnpass] = useState(false);
@@ -40,32 +43,58 @@ const UserLogin=()=> {
   const [eye, seteye] = useState(false);
   const [pass, setPass] = useState("");
 const [passError,setPassError]=useState("");
-  function ValidateEmail(mail) 
+const [emailError,setEmailError]=useState("");
+const navigate=useNavigate();
+  function ValidateEmail() 
 {
- if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-  {
-    console.log("email:",mail);
-    setwarnemail(true)
-    setdanger(false)
-    return false;
+
+ if(!(email)){
+    setwarnemail(true);
+    setdanger(false);
+    setEmailError("Email id is required");
+   
   }
-  return true;
+ else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+  {
+    setwarnemail(true);
+    setdanger(false);
+    setEmailError("Invalid email address format!!");
+  
+  }
+  else{
+    setwarnemail(false);
+    setdanger(true);
+    
+  }
+ 
   
 }
-function validatePassword(password){
+function validatePassword(){
     var passw= /^(?=.*\d)(?=.*[a-z])(?=.*[^a-zA-Z0-9])(?!.*\s).{7,15}$/;
     
-     if(!passw.test(password)){
+   if(!pass)
+   {
+    setwarnpass(true)
+    setpwddanger(false)
+    setPassError("Password is required")
+   }
+   else if(!passw.test(pass)){
         setwarnpass(true)
         setpwddanger(false)
-       password.focus();
-       return false;
+        setPassError("Invalid Password format")
+     
     }
-
+else if(pass.length<8)
+{
+  setPassError("Password length should be minimum of 8 character")
+  setwarnpass(true)
+  setpwddanger(false)
+}
     else
     {
         setpwddanger(true)
-        return true;
+        setwarnpass(false)
+        
     }
 }
 
@@ -73,14 +102,47 @@ function validatePassword(password){
 
   function loginHandler(e) {
     e.preventDefault();
+   validatePassword();
+    ValidateEmail();
    Login({variables:{email:email,pass:pass}})
-   .then((data)=>{
-    localStorage.setItem("access-token",data.data.login.access_token)
   
-  })
-   .catch((err)=>console.log(err));
-   // console.log(email,pass)
+   if(data){
+    localStorage.setItem("access-token",data.login.access_token)
+    localStorage.setItem("user_id",data.login.user.id)
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Successfully Logged in..',
+      text:"The Currency of Blogging is authenticity and trust.Happy Blogging 😍",
+      showConfirmButton: false,
+      timer: 3000
+    })
+    navigate('/profile')
+    
+  }
+  else if(error)
+  {
+    if((error.graphQLErrors[0].extensions.category==="authentication"))
+    {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: error.graphQLErrors[0].extensions.reason,
+        text:"Please Try Again!!",
+        showConfirmButton: false,
+        timer: 3000
+      })
+     
+      
+    }
+  }
+ 
+  // else if((error.graphQLErrors[0].extensions.category==="validation"))
+  // {
+  //   setEmailError(error.graphQLErrors[0].extensions.validation["input.username"])
 
+  //   setPassError(error.graphQLErrors[0].extensions.validation["input.password"])
+  // }
   }
   function showPassword() {
     if (eye) {
@@ -114,22 +176,21 @@ function validatePassword(password){
                 <div className="input_text">
                   <FontAwesomeIcon icon={faEnvelope} />{" "}
                   <input
-                    className={` input ${warnemail ? "warning" : ""}`}
-                    type="text"
+                    className={`  ${warnemail ? "warning" : ""}`}
+                    type='email'
                     name="email"
                     placeholder="Enter  e-mail address."
                     onBlur={(e)=>ValidateEmail(e.target.value)}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <p className={` ${danger ? "danger" : ""}`}>
-                    <FontAwesomeIcon icon={faWarning} size="sm"/>   Please enter a valid email
-                    address.
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {emailError}
                   </p>
                 </div>
                 <div className="input_text">
                   <FontAwesomeIcon icon={faLock} />{" "}
                   <input
-                    className={` ${warnpass ? "warning" : ""}`}
+                    className={` ${warnpass ? "warning" : ""} `}
                     type={eye ? "text" : "password"}
                     placeholder="Enter Password"
                     name="password"
@@ -142,7 +203,7 @@ function validatePassword(password){
                     icon={eye ? faEyeSlash : faEye}
                   />
                    <p className={` ${pwddanger ? "danger" : ""}`}>
-                    <FontAwesomeIcon icon={faWarning} size="sm"/> min 8 characters which contain at least one numeric digit and a special character
+                    <FontAwesomeIcon icon={faWarning} size="sm"/> {passError}
                   </p>
                 </div>
                 <div className="recovery">
