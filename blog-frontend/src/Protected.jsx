@@ -4,6 +4,6 @@ export default function Protected()
 {
     const token=localStorage.getItem('access-token');
     return (
-        token? <Outlet/>:<Navigate to='/signin'/>
+        token? <Outlet/>:<Navigate to='/signIn'/>
     )
 }
