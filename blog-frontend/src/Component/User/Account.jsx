@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { useQuery, gql } from '@apollo/client';
+const id=localStorage.getItem("user_id");
+
+const ME=gql`
+query me($id:ID!){
+  user(id:$id){
+    name,email,contact_no,
+  }
+}
+`;
+
 export default function Account() {
+  const {loading,error,data}=useQuery(ME,{variables:{id:id}});
+  if (loading) return <p>Loading...</p>;
+  if(error) console.log(error);
   return (
     <>
       <section className="h-100 gradient-custom-2">
@@ -33,8 +47,8 @@ export default function Account() {
                     </button>
                   </div>
                   <div className="ms-3" style={{ marginTop: "130px" }}>
-                    <h5>Andy Horwitz</h5>
-                    <p>New York</p>
+                    <h5>{data.user.name}</h5>
+                    <p>{data.user.email}</p>
                   </div>
                 </div>
                 <div

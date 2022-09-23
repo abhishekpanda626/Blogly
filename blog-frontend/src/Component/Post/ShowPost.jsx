@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { useQuery, gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 const POSTS = gql`
 query  get__posts{
        posts{
@@ -17,7 +18,7 @@ query  get__posts{
 
 export default function ShowPost()
 {
- 
+    const navigate=useNavigate();
 
     const {loading,error,data}=useQuery(POSTS);
     if (loading) return <p>Loading...</p>;
@@ -29,7 +30,7 @@ export default function ShowPost()
 
     function clickHandler()
     {
-        alert("Clicked")
+        navigate('/comment/add')
     }
     return(
         <>

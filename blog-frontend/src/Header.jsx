@@ -6,13 +6,25 @@ import Image from "react-bootstrap/Image";
 import { Nav } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBlog, faUserTie } from "@fortawesome/free-solid-svg-icons";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBlog, faPenToSquare, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faUser,faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import { useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
+let id=localStorage.getItem("user_id");
 
+const USER=gql`
+query me($id:ID!){
+  user(id:$id){
+    name
+  }
+}
+`;
 export default function Header() {
+  const {loading,error,data}=useQuery(USER,{variables:{id:id}});
+  
+  if(error) console.log(error);
   const navigate=useNavigate();
   const token=localStorage.getItem("access-token");
   const UserMenu = (
@@ -38,13 +50,27 @@ export default function Header() {
           </Navbar.Brand>
           <Navbar.Toggle />
           <Nav.Link href="/">
-            {" "}
+           
             <FontAwesomeIcon
               inverse
               transform="grow-2 right-5"
               icon={faHouse}
-            />{" "}
+            />
+          </Nav.Link >
+      
+          {
+            token?
+            <Nav.Link href="/post/add">
+            <FontAwesomeIcon
+            inverse
+            style={{color:"white", marginTop:'7px'}}
+            transform=" grow-8 right-180"
+            icon={faPenToSquare}
+          />
           </Nav.Link>
+          :null
+
+          }
           <Navbar.Collapse className="justify-content-end">
   {
     token?
@@ -58,7 +84,7 @@ export default function Header() {
     >
       <NavDropdown.Item href="/profile">
         {" "}
-        <FontAwesomeIcon icon={faUserTie} />
+        <FontAwesomeIcon icon={{faUserTie}} />
         Profile
       </NavDropdown.Item>
       <NavDropdown.Item onClick={logOutHandler}>

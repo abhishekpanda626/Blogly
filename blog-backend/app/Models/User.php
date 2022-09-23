@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-use App\Models\Post;
+use App\Models\UserPost;
+use App\Models\UserComment;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 class User extends Authenticatable
 {
@@ -41,6 +42,10 @@ class User extends Authenticatable
     ];
     public function posts():HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(UserPost::class);
+    }
+    public function comments():HasMany
+    {
+        return $this->hasMany(UserComment::class);
     }
 }

@@ -38,10 +38,21 @@ type User {
     updated_at: DateTime!
     gender: String!
     contact_no: String!
-    posts: [Post] @hasMany
+    post: [Post] @hasMany
+    comment:[Comment] @hasMany
 }
-
-
+type UserPost{
+  author: User @belongsTo
+  post: Post @belongsTo
+}
+type UserComment{
+  author: User @belongsTo
+  user_comment: Comment @belongsTo
+}
+type PostComment{
+  post: Post @belongsTo
+  post_comment: Comment @belongsTo
+}
 type Mutation {
     login(input: LoginInput @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\Login@resolve")
     refreshToken(input: RefreshTokenInput @spread): RefreshTokenPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\RefreshToken@resolve")
