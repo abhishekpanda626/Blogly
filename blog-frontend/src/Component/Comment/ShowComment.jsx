@@ -3,7 +3,7 @@ import { Modal,Button, } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane,faCamera, faXmark, faEdit, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane,faCamera, faXmark, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
 const COMMENTS=gql`
 mutation send($comment:String!,$uid:ID!,$pid:ID!){
   createComment(input:{comment:$comment,user_id:$uid,post_id:$pid})
@@ -63,6 +63,19 @@ navigate('/comment/show')
          <img src="https://github.com/mshaaban0.png"
          className='rounded-circle' height={35} width={40}
          alt="not found" /> <b style={{color:"#3b5998",marginRight:"10PX"}}> Abhishek </b> 
+         <div className="justify-content-end">
+           
+         </div>
+         <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  <FontAwesomeIcon icon={faEllipsisVertical}/>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
           </Modal.Header>
           <Modal.Body>  
             <div className='container '>
