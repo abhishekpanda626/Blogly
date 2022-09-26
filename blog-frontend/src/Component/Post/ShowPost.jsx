@@ -16,12 +16,12 @@ query  get__posts{
         id
         title
         content
+        user_id
         comment{
             id
             comment
-            by{
-                name
-            }
+            user_id
+            post_id
         }
     }
    }

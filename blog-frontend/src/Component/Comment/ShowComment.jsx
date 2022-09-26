@@ -3,7 +3,7 @@ import { Modal,Button, } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane,faCamera, faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane,faCamera, faXmark, faEdit, faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 const COMMENTS=gql`
 mutation send($comment:String!,$uid:ID!,$pid:ID!){
   createComment(input:{comment:$comment,user_id:$uid,post_id:$pid})
@@ -16,10 +16,23 @@ mutation send($comment:String!,$uid:ID!,$pid:ID!){
   post_id
   }
 }
-`
+`;
+const DELETE_COMMENT=gql`
+mutation del($id:ID!){
+  deleteComment(id:$id)
+  {
+    comment
+  by{
+    name
+  }
+  user_id
+  post_id
+  }
+}`;
 export default function ShowComment()
 {
     const[send,{loading,error,data}]=useMutation(COMMENTS,{errorPolicy:"all"});
+    const[del]=useMutation(DELETE_COMMENT);
     let post=JSON.parse(localStorage.getItem("post"));
     let uid=localStorage.getItem('user_id');
     const navigate=useNavigate();
@@ -36,6 +49,11 @@ export default function ShowComment()
 const   commentHandler=()=>{
 send({variables:{comment:comment,uid:uid,pid:post.id}})
 navigate('/post/add')
+}
+function deleteComment(cid){
+del({variables:{id:cid}});
+navigate('/comment/show')
+
 }
 
     return (
@@ -65,10 +83,17 @@ navigate('/post/add')
                             <td style={{color:"#3b5998"}}>author</td>
                             <td>{comments.comment}</td>
                             {
-                                console.log(uid,comments)
-                            //  comments.user_id===uid?
-                            //  <td><button><FontAwesomeIcon className='text-danger' icon={faXmark}/></button></td>
-                            //  :null
+                             post.user_id===uid?
+                             <td>
+                             <><button className='icon-delete' onClick={(e)=>{deleteComment(comments.id)}}><FontAwesomeIcon className='text-danger' icon={faXmark}/></button></>
+                            {/* {
+                                comments.user_id===uid?
+                                <><button className='icon-edit'><FontAwesomeIcon style={{color:"#3b5998"}} icon={faPenToSquare}/></button></>:
+                                null
+                            } */}
+    
+                             </td> 
+                             :null
                             }
                         </tr>
                    
