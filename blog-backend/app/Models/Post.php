@@ -11,10 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     use HasFactory;
-    public function comments():HasMany
+    public function comment():HasMany
     {
-        return $this->hasMany(PostComment::class);
+        return $this->hasMany(Comment::class);
     }
 
-    
+    public function author():BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -4,8 +4,9 @@ extend type Query{
 }
 input CommentInput{
    comment:String! @rules(apply:["required"])
-    post_id: ID!
+    post_id: ID! 
     user_id:ID!
+    
 }
 extend type Mutation{
     createComment(input:CommentInput @spread):Comment @create  @guard(with: ["api"])
@@ -15,6 +16,8 @@ extend type Mutation{
 type Comment{
     id:ID!
     comment:String!
-    post: PostComment @belongsTo
-    author: UserComment @belongsTo
+     post_id: ID! 
+    user_id:ID!
+    post: Post @belongsTo
+    by: User @belongsTo
 }

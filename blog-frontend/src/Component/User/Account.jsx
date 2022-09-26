@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, gql } from '@apollo/client';
 const id=localStorage.getItem("user_id");
 
@@ -8,6 +8,15 @@ const ME=gql`
 query me($id:ID!){
   user(id:$id){
     name,email,contact_no,
+    posts{
+      title,content,comment{
+        comment
+        by{
+          name
+        }
+      }
+    }
+  
   }
 }
 `;
@@ -48,7 +57,7 @@ export default function Account() {
                   </div>
                   <div className="ms-3" style={{ marginTop: "130px" }}>
                     <h5>{data.user.name}</h5>
-                    <p>{data.user.email}</p>
+               
                   </div>
                 </div>
                 <div
@@ -57,14 +66,42 @@ export default function Account() {
                 ></div>
                 <div className="card-body p-4 text-black">
                   <div className="mb-5">
-                    <p className="lead fw-normal mb-1">About</p>
+                    <p className="lead fw-normal mb-1">Contact</p>
                     <div className="p-4" style={{ backgroundColor: "#f8f9fa" }}>
-                      <p className="font-italic mb-1">Web Developer</p>
-                      <p className="font-italic mb-1">Lives in New York</p>
-                      <p className="font-italic mb-0">Photographer</p>
+                      <p className="font-italic mb-1">{data.user.contact_no}</p>
+                      <p className="font-italic mb-0">{data.user.email}</p>
                     </div>
                   </div>
+                  <div className="mb-5">
+                    <p className="lead fw-normal mb-1 headings" >Posts </p>
+                   {
+                      data.user.posts.map(post=>(
+                        
+                        <div className="p-4" style={{ backgroundColor: "#f8f9fa" }} key={post.id}>
+                        <p className="font-italic mb-1 text-success">{post.title}</p>
+                       <p className="font-italic mb-1">{post.content}</p>  
+                          
+                      <div>
+                      {
+                          post.comment.map(comments=>(
+                             <div  className=" p-4" style={{ backgroundColor: "#f8f9fa" }} key={comments.id}>
+                              <FontAwesomeIcon style={{color:"#3b5998"}} icon={faComment}/> <br />
+                              <b>abhishek</b>
+                             <p className="font-italic text-muted mb-1">{comments.comment}</p>
+                             {/* <p className="font-italic mb-1">{comments.by.name}</p> */}
+                             </div>
+                            
+                          ))
+                       }
+                      </div>
+                        
+                      </div>
+                      ))
+                    } 
+                
+                  </div>
                 </div>
+                
               </div>
             </div>
           </div>

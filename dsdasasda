@@ -1,0 +1,157 @@
+[33mcommit 7389ea5319cad7c79ed72e64c67be0c93d871aae[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Fri Sep 23 18:28:01 2022 +0530
+
+    Add Index Tables for Foreign keys for each tables
+
+[33mcommit 7f157e1f659a8e5b0d09f0ff6b379af0019ccad8[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Fri Sep 23 18:21:25 2022 +0530
+
+    Add Index Tables for Foreign keys for each tables
+
+[33mcommit 390d973c7dc986295310bf0e4faeffec50c0d681[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Fri Sep 23 15:40:11 2022 +0530
+
+    Add Error messages and sweet alert
+
+[33mcommit 46ea6183ef3fc68920a7aaecbd387d7e8ba4e7b1[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Fri Sep 23 09:16:47 2022 +0530
+
+    Modify Protected.jsx
+
+[33mcommit 45b1114493a2bb07ef96fb2ee13bbf51d131a2f1[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Thu Sep 22 18:24:19 2022 +0530
+
+    Add rules with custom messages to login
+
+[33mcommit 2a1723cf3edf4dc6b0ad62173781221d86ba7078[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Thu Sep 22 18:22:14 2022 +0530
+
+    Add rules with custom messages to login
+
+[33mcommit cdcff722da6bee6442b9698be10719991ca43dea[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Thu Sep 22 18:14:34 2022 +0530
+
+    Add Protected Routing
+    Add createPost API
+
+[33mcommit 1f72f01280efc086b7eeda63880d5530f84af2a9[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Thu Sep 22 13:04:22 2022 +0530
+
+    Add API intigration for signup
+
+[33mcommit fb3009be4d5368b1ab834ee3566f7e91076faaf9[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Wed Sep 21 18:27:51 2022 +0530
+
+    Add Login Signup,Post,Comment,Profile UI and front end Validation
+
+[33mcommit d26510c43bb4ce818d6310fc623837337bf38415[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Wed Sep 21 13:07:59 2022 +0530
+
+    Add icons to login and signup
+
+[33mcommit 38f03599bd3842894332a0c09f5354c8192e22f3[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Tue Sep 20 18:34:32 2022 +0530
+
+    Add Navbar and Login UI
+
+[33mcommit dd6035241c0dc32490b71354b141a903769e3665[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Tue Sep 20 12:49:43 2022 +0530
+
+    Add Post and Comment with relationships
+
+[33mcommit e19e46787caa2bc8ab2b81327f6f75cddad7fc83[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Tue Sep 20 09:31:06 2022 +0530
+
+    Passport Authentication
+
+[33mcommit 7f3cf57dab195829fe5ca2ec531a68026da93173[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Mon Sep 19 18:56:17 2022 +0530
+
+    Add Comment and Post table
+
+[33mcommit d3fddc31de72f5f5bb7f836cb7d14a6ddec1c8c4[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Mon Sep 19 18:48:26 2022 +0530
+
+    Add Graphql
+
+[33mcommit 6ac44a3e07aefc566b189499e9eeae0acd55cf1b[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Mon Sep 19 18:33:35 2022 +0530
+
+    Add frontend
+
+[33mcommit d4cea8906dcbd1c01bac2aba28b61e814aa8119d[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Mon Sep 19 13:13:57 2022 +0530
+
+    Add token for Passport Auth
+
+[33mcommit 4b767fa063b62bac5d94f880002b59c6f4a08ac2[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 16:58:00 2022 +0530
+
+    Modify GraphQL
+
+[33mcommit b7036893dcded5c50d430167c9ef012109e39880[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 16:22:22 2022 +0530
+
+    Modify GraphQL for Comments
+
+[33mcommit f91d9a934621f25bcb2b7591460bde13c637fede[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 16:17:15 2022 +0530
+
+    Modify GraphQL for Posts and Comments CRUD
+
+[33mcommit 4cf66aa1d6c37cfaa0f17ff95a3d1acc3b63a2c4[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 13:25:07 2022 +0530
+
+    Modify GraphQL schema
+
+[33mcommit 5e48628df8233be322f3fa9d3f83f5a6a90442af[m
+Merge: a7758c4 9442966
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 12:58:36 2022 +0530
+
+    Merge branch 'main' of https://github.com/abhishekpanda626/Blogly into main
+
+[33mcommit a7758c480d7c2bf13586eda02596f9faa6a95b9b[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 12:57:29 2022 +0530
+
+    Add GraphQl feature
+
+[33mcommit 9442966c7eb568e20cc29a5a6535056426f799ec[m
+Author: abhishekpanda626 <111351300+abhishekpanda626@users.noreply.github.com>
+Date:   Sat Sep 17 11:53:20 2022 +0530
+
+    Update README.md
+
+[33mcommit f8f44fc7814de0fcd820c559f51708792c67621c[m
+Author: abhishekpanda626 <111351300+abhishekpanda626@users.noreply.github.com>
+Date:   Sat Sep 17 11:53:11 2022 +0530
+
+    Update README.md
+
+[33mcommit 14d37ef9d70660ff5c907a24da85da7670681a1e[m
+Author: “abhishekpanda626” <“abhishek.panda@nettantra.net”>
+Date:   Sat Sep 17 11:52:03 2022 +0530
+
+     blogly initial  commit

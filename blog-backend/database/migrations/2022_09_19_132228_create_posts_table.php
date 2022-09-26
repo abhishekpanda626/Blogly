@@ -17,9 +17,12 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string("title");
             $table->string("content");
- 
+            $table->foreignId("user_id")->nullable();
             $table->string("file_path")->nullable();
             $table->timestamps();
+        });
+        Schema::table('posts', function (Blueprint $table) {
+            $table->foreign("user_id")->references('id')->on('users');
         });
     }
 

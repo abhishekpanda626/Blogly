@@ -12,12 +12,14 @@ type Post{
     id:ID!
     title:String!
     content: String!
-    author: UserPost @belongsTo
-  comment: [PostComment!] @hasMany
+    user_id:ID!
+    
+    author: User @belongsTo 
+  comment: [Comment!] @hasMany
 }
 input PostInput{
-    title:String! @rules(apply:["required"]) 
-    content:String! @rules(apply:["required"])
+    title:String! @rules(apply:["required","min:4"],messages:[{rule:"required" message:"How can you leave that blank?You just can't."}{rule:"min" message:"Minimum 3 characters are required"}]) 
+    content:String! @rules(apply:["required","min:10"],messages:[{rule:"required" message:"Are you sure you don't have anything in mind.Come'on think harder"}{rule:"min" message:"Minimum 10 characters are required"}])
     user_id: ID!
 }
 extend type Mutation{

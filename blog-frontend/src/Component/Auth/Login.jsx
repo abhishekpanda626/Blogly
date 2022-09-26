@@ -20,19 +20,13 @@ mutation Login($email:String!,$pass:String!){
     user{
       id
       name email contact_no gender 
-      posts{
-        comments{
-          id
-          comment
-          
-        }
-      }
+     
     }
   }
 }
 
 `;
-const UserLogin=()=> {
+export default function UserLogin() {
   const [Login,{loading,error,data}] =useMutation(SIGN_IN,{errorPolicy:"all"});
   const [email, setEmail] = useState("");
   const [warnemail, setwarnemail] = useState(false);
@@ -222,4 +216,3 @@ else if(pass.length<8)
     </>
   );
 }
-export default UserLogin;

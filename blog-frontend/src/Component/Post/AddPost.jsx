@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMutation, gql } from '@apollo/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 import {
   faMessage,
   faCamera,
@@ -30,7 +31,7 @@ mutation AddPost($title:String!,$content:String!,$user_id:ID!){
 }`;
 
 
-const  AddPost=()=> {
+export default function  AddPost() {
 const [AddPost,{loading,error,data}]=useMutation(ADD_POST,{errorPolicy:"all"});
 const [title,setTitle]=useState('');
 const [content,setContent]=useState('');  
@@ -47,16 +48,22 @@ const postHandler=(e)=>{
   e.preventDefault();
   
   AddPost({variables:{title:title,content:content,user_id:id}});
+  if(data)
+  {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }
   console.log(data);
 }
   return (
     <>
       <div className="container-fluid h-100 d-inline-block">
         <div className="row d-xl-flex">
-          <div className="col-sm-3 mt-5 ">
-          
-          </div>
-          <div className="col-md-5 m-5 ">
+          <div className="col-md-4 m-5  position-sticky " >
             <form action="" className="form-group">
               <span className="post-avatar">{Avatar} Samwell Tarly</span>
               <div className="post_text">
@@ -80,9 +87,9 @@ const postHandler=(e)=>{
               </div>
             </form>
           </div>
-          <div className="col-sm-3 mt-5">
-            <div className="headings">Profile</div>
-            <Profile />
+          <div className="col-sm-7 mt-5">
+            <div className="headings">Posts</div>
+            <ShowPost />
           </div>
         </div>
         <div></div>
@@ -90,4 +97,3 @@ const postHandler=(e)=>{
     </>
   );
 }
-export default  AddPost;

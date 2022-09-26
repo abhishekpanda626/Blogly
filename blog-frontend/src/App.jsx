@@ -27,8 +27,8 @@ function App() {
     <Route exact path="/profile" element={<Account/>}/>
     <Route exact path="/post/add" element={<AddPost/>}/>
       <Route exact path="/post/show" element={<ShowPost/>}/>
-      <Route exact path="/comment/add" element={<ShowPost/>}/>
-      <Route exact path="/comment/show" element={<ShowPost/>}/>
+      <Route exact path="/comment/add" element={<AddComment/>}/>
+      <Route exact path="/comment/show" element={<ShowComment/>}/>
     </Route>
      
     </Routes>

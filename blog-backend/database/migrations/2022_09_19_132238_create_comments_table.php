@@ -17,7 +17,13 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->string("comment");
             $table->string("file_path")->nullable();
+            $table->foreignId("user_id")->nullable();
+            $table->foreignId("post_id")->nullable();
             $table->timestamps();
+        });
+        Schema::table('comments', function (Blueprint $table) {
+            $table->foreign("user_id")->references('id')->on('users');
+            $table->foreign("post_id")->references('id')->on('posts');
         });
     }
 

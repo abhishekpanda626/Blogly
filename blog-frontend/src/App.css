@@ -484,3 +484,34 @@ input[type="file"] {
   color: #1369ce;
   background-color: #f7f5ec;
 }
+.x-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.custom-card{
+  margin-top: 50px;
+}
+.modal-div{
+  color: #000;
+}
+.comment_div{
+  border:2px solid ;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #f7f5ec;
+}
+.comment_input{
+  border: none;
+  outline:0;
+}
+.icon-comment{
+  font-size: 20px;
+  border: none;
+  color: #3b5998;
+  background: rgb(255, 255, 255);
+}
+.icon-upload{
+  color:#3b5998;
+}
