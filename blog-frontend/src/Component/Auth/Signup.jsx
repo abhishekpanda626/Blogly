@@ -11,6 +11,7 @@ import {
   faPhone,
   faUser,
   faWarning,
+  faCamera
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import "../../App.css";
@@ -235,6 +236,13 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
                      <p className={` ${!confirmError ? "danger" : "show"}`}>
                     <FontAwesomeIcon icon={faWarning} size="sm"/> {confirmError}
                   </p>
+                </div>
+                <div className="input_text">
+                <div className="wrapper">
+                  <FontAwesomeIcon className="upload" icon={faCamera} /> 
+                  <input type="file" />
+                  
+                </div>
                 </div>
                 <div className="btn-login">
                   <button type="button" onClick={(e)=>submitForm(e)}>Sign up</button>

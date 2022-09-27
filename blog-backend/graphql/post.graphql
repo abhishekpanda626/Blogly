@@ -2,10 +2,8 @@ extend type Query{
     posts: [Post]! @all 
     post(
       "Search by primary key."
-      user_id: ID @eq @rules(apply: ["prohibits:email", "required_without:title"])
-
-      "Search by title."
-      title: String @eq @rules(apply: ["prohibits:id", "required_without:user_id"])
+        id: ID @eq 
+      title: String @eq
     ): Post   @find @guard(with: ["api"])
 }
 type Post{

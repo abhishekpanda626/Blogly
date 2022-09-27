@@ -75,8 +75,7 @@ input ForgotPasswordInput {
 }
 
 input NewPasswordWithCodeInput {
-    email: String! @rules(apply: ["required", "email"])
-    token: String! @rules(apply: ["required", "string"])
+    
     password: String! @rules(apply: ["required", "confirmed", "min:8"])
     password_confirmation: String!
 }

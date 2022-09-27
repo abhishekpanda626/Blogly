@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments} from '@fortawesome/free-solid-svg-icons';
 import { useQuery, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-import AddComment from '../Comment/AddComment';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { Button } from 'react-bootstrap';
@@ -29,12 +28,10 @@ query  get__posts{
 
 export default function ShowPost()
 {
-    const navigate=useNavigate();
-
+ 
     const {loading,error,data}=useQuery(POSTS);
     if (loading) return <p>Loading...</p>;
      if(error) console.log(error);
-     console.log(data);
     return(
         <>
     

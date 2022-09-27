@@ -518,7 +518,11 @@ input[type="file"] {
 .icon-delete{
   background-color: white;
   border: none;
+  font-weight: solid;
+  font-size: 20px;
 }
-.editt{
+.edit-btn{
+ 
+  border: none;
   
 }

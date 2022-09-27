@@ -9,7 +9,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Image } from "react-bootstrap";
 import ShowPost from "./ShowPost";
-import Profile from "../User/Profile";
 const token=localStorage.getItem('access-token')
 const id=localStorage.getItem('user_id');
 const ADD_POST=gql`

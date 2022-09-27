@@ -1,10 +1,10 @@
 input UpdateUserInput {
     id: ID! 
     name: String @rules(apply: ["string"])
-    email: String @rules(apply: ["email", "unique:users,email"])
-    password: String @rules(apply: ["confirmed", "min:8"])
-    password_confirmation: String!
-    gender: String 
+    # email: String @rules(apply: ["email", "unique:users,email"])
+    # password: String @rules(apply: ["confirmed", "min:8"])
+    # password_confirmation: String!
+    # gender: String 
     contact_no: String @rules (apply:["min:10"])
 } 
 extend type Mutation{

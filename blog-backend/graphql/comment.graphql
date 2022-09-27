@@ -1,6 +1,6 @@
 extend type Query{
     comments: [Comment]! @all  @guard(with: ["api"])
-    
+    comment(id: ID @eq): Comment @find @guard(with: ["api"])
 }
 input CommentInput{
    comment:String! @rules(apply:["required"])

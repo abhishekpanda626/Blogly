@@ -6,11 +6,12 @@ import Home from './Component/Home';
 import UserLogin from './Component/Auth/Login';
 import Account from './Component/User/Account';
 import AddPost from './Component/Post/AddPost';
-import { useQuery, gql } from '@apollo/client';
+import EditProfile from './Component/User/EditProfile';
 import ShowPost from './Component/Post/ShowPost';
-import AddComment from './Component/Comment/AddComment';
+import EditComment from './Component/Comment/EditComment';
 import ShowComment from './Component/Comment/ShowComment';
 import Protected from './Protected';
+import EditPost from './Component/Post/EditPost';
 function App() {
   return (
     <Router>
@@ -25,9 +26,11 @@ function App() {
       
     <Route element={<Protected/>}>
     <Route exact path="/profile" element={<Account/>}/>
+    <Route exact path="/profile/edit" element={<EditProfile/>}/>
     <Route exact path="/post/add" element={<AddPost/>}/>
+    <Route exact path="/post/edit" element={<EditPost/>}/>
       <Route exact path="/post/show" element={<ShowPost/>}/>
-      <Route exact path="/comment/add" element={<AddComment/>}/>
+      <Route exact path="/comment/edit" element={<EditComment/>}/>
       <Route exact path="/comment/show" element={<ShowComment/>}/>
     </Route>
      

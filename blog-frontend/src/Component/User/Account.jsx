@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, gql } from '@apollo/client';
+import { useNavigate } from "react-router-dom";
 const id=localStorage.getItem("user_id");
 
 const ME=gql`
@@ -23,8 +24,15 @@ query me($id:ID!){
 
 export default function Account() {
   const {loading,error,data}=useQuery(ME,{variables:{id:id}});
+  const navigate=useNavigate();
   if (loading) return <p>Loading...</p>;
   if(error) console.log(error);
+
+function editUser()
+{
+  navigate('/profile/edit')
+}
+
   return (
     <>
       <section className="h-100 gradient-custom-2">
@@ -51,6 +59,7 @@ export default function Account() {
                       className="btn btn-outline-dark"
                       data-mdb-ripple-color="dark"
                       style={{ zIndex: "1" }}
+                      onClick={(e)=>editUser()}
                     >
                       Edit profile <FontAwesomeIcon icon={faUserPen} />
                     </button>
