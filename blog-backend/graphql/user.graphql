@@ -10,4 +10,6 @@ input UpdateUserInput {
 extend type Mutation{
     updateUser(input: UpdateUserInput @spread): User @update  @guard(with: ["api"])
     deleteUser(id:ID!): User @delete  @guard(with: ["api"])
+    updateUserAvatar(avatar: Upload! id:ID!): User
+
 }

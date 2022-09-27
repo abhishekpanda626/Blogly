@@ -40,6 +40,7 @@ type User {
     contact_no: String!
     posts: [Post!]! @hasMany
     comments:[Comment!]! @hasMany
+    avatar: String
 }
 
 
@@ -54,6 +55,7 @@ type Mutation {
     verifyEmail(input: VerifyEmailInput! @spread): AuthPayload! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\VerifyEmail@resolve")
     updatePassword(input: UpdatePassword! @spread): UpdatePasswordResponse! @field(resolver: "Joselfonseca\\LighthouseGraphQLPassport\\GraphQL\\Mutations\\UpdatePassword@resolve") @guard(with: ["api"])
 }
+
 #import user.graphql
 #import post.graphql
 #import comment.graphql

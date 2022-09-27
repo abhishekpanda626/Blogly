@@ -11,7 +11,7 @@ type Post{
     title:String!
     content: String!
     user_id:ID!
-    
+    file_path:String
     author: User @belongsTo 
   comment: [Comment!] @hasMany
 }
@@ -24,4 +24,5 @@ extend type Mutation{
     createPost(input: PostInput @spread):Post @create  @guard(with: ["api"])
     updatePost(id:ID! title:String content:String ):Post @update  @guard(with: ["api"])
     deletePost(id:ID!):Post @delete  @guard(with: ["api"])
+    uploadPost(file_path: Upload! id:ID!): Post
 }

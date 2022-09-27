@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
+import userlogo from "./user.png";
+import Swal from "sweetalert2";
 const id=localStorage.getItem("user_id");
 
 const ME=gql`
 query me($id:ID!){
   user(id:$id){
-    name,email,contact_no,
+    name,email,contact_no,avatar
     posts{
       title,content,comment{
         comment
@@ -25,6 +27,7 @@ query me($id:ID!){
 export default function Account() {
   const {loading,error,data}=useQuery(ME,{variables:{id:id}});
   const navigate=useNavigate();
+  const[file,setFile]=useState('');
   if (loading) return <p>Loading...</p>;
   if(error) console.log(error);
 
@@ -32,6 +35,47 @@ function editUser()
 {
   navigate('/profile/edit')
 }
+async function uploadImage()
+{
+  const Data = new FormData();
+//   if(!file)
+//   {
+//     Swal.fire({
+//       position: 'center',
+//       icon: 'error',
+//       title: 'Image is not selected',
+//       showConfirmButton: false,
+//       timer: 2000
+//     })
+//   }
+//   else if (! /\.(jpe?g|png|gif|bmp)$/i.test(file) ) {
+//     Swal.fire({
+//       position: 'center',
+//       icon: 'error',
+//       title: 'Invalid file format selected',
+//       text:"Only supports jpg,jpeg or png image.",
+//       showConfirmButton: false,
+//       timer: 3000
+//     })
+// }
+// else{
+ 
+  Data.append(
+      "operations",
+      `{"query" :" mutation FileUpload($file:Upload!,$id:ID!){updateUserAvatar(avatar:$file,id:$id){name,avatar}}","variables": {"id":${id}}}`
+    );
+    Data.append("map", '{"0":["variables.file"]}');
+    Data.append("0", file);
+  
+   console.log(file,Data)
+   let result=await fetch("http://localhost:8000/graphql",{
+      method:'POST',
+    body:Data});
+
+}
+
+
+
 
   return (
     <>
@@ -48,12 +92,22 @@ function editUser()
                     className="ms-4 mt-5 d-flex flex-column"
                     style={{ width: "150px" }}
                   >
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                      alt="Generic placeholder image"
-                      className="img-fluid img-thumbnail mt-4 mb-2"
+                      <div className="wrapper">
+                        {console.log(data.user.avatar)}
+                      <img
+                      src=  {data.user.avatar?
+                         `http://localhost:8000/${data.user.avatar}`
+                         : 
+                         userlogo
+                        }
+
+                                            alt="Generic placeholder image"
+                      className="img-fluid img-thumbnail rounded-circle mt-4 mb-2"
                       style={{ width: "150px", zIndex: "1" }}
                     />
+                  <input type="file" onChange={(e)=>setFile(e.target.files[0])} onBlur={(e)=>uploadImage()} />
+                </div>
+                   
                     <button
                       type="button"
                       className="btn btn-outline-dark"

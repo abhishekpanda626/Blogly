@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Post extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'title', 'content', 'file_path'
+    ];
     public function comment():HasMany
     {
         return $this->hasMany(Comment::class);

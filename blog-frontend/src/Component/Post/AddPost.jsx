@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql,useQuery } from '@apollo/client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
 import {
@@ -11,6 +11,13 @@ import { Image } from "react-bootstrap";
 import ShowPost from "./ShowPost";
 const token=localStorage.getItem('access-token')
 const id=localStorage.getItem('user_id');
+const USERS=gql`
+query user_all{
+users{
+  id,name,email
+}
+}
+`;
 const ADD_POST=gql`
 mutation AddPost($title:String!,$content:String!,$user_id:ID!){
   createPost(input:{
@@ -31,7 +38,8 @@ mutation AddPost($title:String!,$content:String!,$user_id:ID!){
 
 
 export default function  AddPost() {
-const [AddPost,{loading,error,data}]=useMutation(ADD_POST,{errorPolicy:"all"});
+  const {loading,error,data}=useQuery(USERS);
+const [AddPost]=useMutation(ADD_POST,{errorPolicy:"all"});
 const [title,setTitle]=useState('');
 const [content,setContent]=useState('');  
 const Avatar = (
@@ -42,12 +50,12 @@ const Avatar = (
       style={{ width: "25px" }}
     />
   );
-  
+ 
 const postHandler=(e)=>{
   e.preventDefault();
   
-  AddPost({variables:{title:title,content:content,user_id:id}});
-  if(data)
+  AddPost({variables:{title:title,content:content,user_id:id}})
+  .then(res=>
   {
     Swal.fire({
       position: 'top-end',
@@ -55,8 +63,8 @@ const postHandler=(e)=>{
       showConfirmButton: false,
       timer: 1500
     })
-  }
-  console.log(data);
+  })
+ 
 }
   return (
     <>
@@ -64,7 +72,15 @@ const postHandler=(e)=>{
         <div className="row d-xl-flex">
           <div className="col-md-4 m-5  position-sticky " >
             <form action="" className="form-group">
-              <span className="post-avatar">{Avatar} Samwell Tarly</span>
+            <span className="post-avatar">{Avatar}  </span>
+             {/* {
+              data.users.map(user=>(
+               {
+                user.id===user_id? {user.name}: Random
+               }
+              ))
+             } */}
+            
               <div className="post_text">
                 <FontAwesomeIcon icon={faPenToSquare} />
                 <input

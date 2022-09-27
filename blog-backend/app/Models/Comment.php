@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Comment extends Model
 {
     use HasFactory;
+    protected $fillable = [
+         'comment', 'file_path'
+    ];
     public function post():BelongsTo
     {
         return $this->belongsTo(Post::class);

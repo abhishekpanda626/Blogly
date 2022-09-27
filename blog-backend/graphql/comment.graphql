@@ -12,6 +12,7 @@ extend type Mutation{
     createComment(input:CommentInput @spread):Comment @create  @guard(with: ["api"])
     updateComment(id:ID! comment:String):Comment @update  @guard(with: ["api"])
     deleteComment(id:ID!):Comment @delete  @guard(with: ["api"])
+     uploadComment(file_path: Upload! id:ID!): Comment
 }
 type Comment{
     id:ID!
@@ -20,4 +21,5 @@ type Comment{
     user_id:ID!
     post: Post @belongsTo
     by: User @belongsTo
+    file_path: String!
 }
