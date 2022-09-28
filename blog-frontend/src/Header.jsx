@@ -1,4 +1,5 @@
 import Container from "react-bootstrap/Container";
+import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -6,35 +7,36 @@ import Image from "react-bootstrap/Image";
 import { Nav } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBlog, faPenToSquare, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faBlog, faPenToSquare, faUserGraduate, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { faUser,faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
+import userlogo from "./Component/User/user.png";
 let id=localStorage.getItem("user_id");
 
-const USER=gql`
-query me($id:ID!){
-  user(id:$id){
-    name
-  }
-}
-`;
+
 export default function Header() {
-  const {loading,error,data}=useQuery(USER,{variables:{id:id}});
+  let user=JSON.parse(localStorage.getItem('user'));
   
-  if(error) console.log(error);
+  const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <a
+      href=""
+      ref={ref}
+      onClick={e => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      {children}
+      <span className="threedots" />
+    </a>
+  ));
+
   const navigate=useNavigate();
   const token=localStorage.getItem("access-token");
-  const UserMenu = (
-    <Image
-      src={"https://github.com/mshaaban0.png"}
-      alt="UserName profile image"
-      roundedCircle
-      style={{ width: "35px" }}
-    />
-  );
+
   const logOutHandler=()=>{
     localStorage.clear();
     navigate('/');
@@ -44,7 +46,7 @@ export default function Header() {
       <Navbar sticky="top" style={{ background: "#3b5998" }} variant="dark">
         <Container fluid="xxl">
           <Navbar.Brand href="#home">
-            {" "}
+            
             <FontAwesomeIcon icon={faBlog} />
             Blogly
           </Navbar.Brand>
@@ -60,39 +62,44 @@ export default function Header() {
       
           {
             token?
-            <Nav.Link href="/post/add">
+            <Nav.Link href="/post/show">
             <FontAwesomeIcon
             inverse
             style={{color:"white", marginTop:'7px'}}
             transform=" grow-8 right-180"
             icon={faPenToSquare}
           />
+          
           </Nav.Link>
           :null
 
           }
+          
           <Navbar.Collapse className="justify-content-end">
   {
     token?
     
    
-    <NavDropdown
-      title={UserMenu}
-      // menuVariant="dark"
-      bg="muted"
-      drop="start"
-    >
-      <NavDropdown.Item href="/profile">
-        {" "}
-        <FontAwesomeIcon icon={{faUserTie}} />
-        Profile
-      </NavDropdown.Item>
-      <NavDropdown.Item onClick={logOutHandler}>
-        <FontAwesomeIcon icon={faRightFromBracket} />
-        logout
-      </NavDropdown.Item>
-    </NavDropdown>
+    <Dropdown drop="start">
+ <Dropdown.Toggle  variant="muted" as={CustomToggle}>
+ <img src=  {user.avatar?
+                         `http://localhost:8000/${user.avatar}`
+                         : 
+                         userlogo
+                        } 
+ 
+ width={43} height={39} className="rounded-circle"  />
+ </Dropdown.Toggle>
 
+ <Dropdown.Menu  >
+   <Dropdown.Item href="/profile">  
+   <FontAwesomeIcon icon={faUserTie} />
+         &nbsp; Account
+        </Dropdown.Item>
+   <Dropdown.Item onClick={(e)=>logOutHandler()}> <FontAwesomeIcon icon={faRightFromBracket} />
+   &nbsp; Logout</Dropdown.Item>
+ </Dropdown.Menu>
+</Dropdown>
   :
   null
   }

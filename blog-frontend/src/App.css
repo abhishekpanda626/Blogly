@@ -526,3 +526,9 @@ input[type="file"] {
   border: none;
   
 }
+.dropdown-menu {
+  min-width: auto !important;
+}
+#navbarScrollingDropdown {
+  width: fit-content;
+}

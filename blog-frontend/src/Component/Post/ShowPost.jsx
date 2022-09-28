@@ -1,58 +1,98 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComments} from '@fortawesome/free-solid-svg-icons';
-import { useQuery, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import { Button } from 'react-bootstrap';
-import { click } from '@testing-library/user-event/dist/click';
-import ShowComment from '../Comment/ShowComment';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComments, faEdit, faPencilSquare, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { useQuery, gql } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import { Button } from "react-bootstrap";
+import { click } from "@testing-library/user-event/dist/click";
+import ShowComment from "../Comment/ShowComment";
 const POSTS = gql`
-
-query  get__posts{
-       posts{
+  query get__posts {
+    posts {
+      id
+      title
+      content
+      user_id
+      file_path
+      comment {
         id
-        title
-        content
+        comment
         user_id
-        comment{
-            id
-            comment
-            user_id
-            post_id
-        }
+        post_id
+        file_path
+      }
     }
-   }
+  }
 `;
 
-export default function ShowPost()
-{
- 
-    const {loading,error,data}=useQuery(POSTS);
-    if (loading) return <p>Loading...</p>;
-     if(error) console.log(error);
-    return(
-        <>
-    
-        <div className='x-container '>
-        <div >{
-                data.posts.map(uposts=>(
-                    <div className='card custom-card border-0 justify-content-center align-items-center ' key={uposts.id}>
-                            <img className="card-img-top" src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bGVuc3xlbnwwfHwwfHw%3D&w=1000&q=80"
-                             alt="Card image cap" style={{height:"50%",width:"50%"}} />
-                                 <div className="card-body">
-                                  <h5 className="card-title">{uposts.title}</h5>
-
-        <center><a href='/comment/show' onClick={(e=>localStorage.setItem("post",JSON.stringify(uposts)))} ><FontAwesomeIcon  icon={faComments}   /></a></center>
-  </div>
-                    
-                </div>
-                ))
-            }
-           </div>
+export default function ShowPost() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  const { loading, error, data } = useQuery(POSTS);
+  if (loading) return <p>Loading...</p>;
+  if (error) console.warn(error);
+  return (
+    <>
+      <div className="container ">
+        <div className="row">
             
+        <div className="col-md">
+            
+        <div>
+        <center>
+                
+                  <a href="/post/add" >
+                  <button className="btn  btn-outline-primary">
+                  Add New
+                    <FontAwesomeIcon icon={faPencilSquare}   />
+                    </button>
+                  </a>
+                  
+</center>
+          {data.posts.map((uposts) => (
+            <div
+              className="card custom-card border-0 justify-content-center align-items-center "
+              key={uposts.id}
+            >
+              {uposts.file_path ? (
+                <img
+                  className="card-img-top"
+                  src={`http://localhost:8000/${uposts.file_path}`}
+                  alt="Card image cap"
+                  style={{
+                    height: "30%",
+                    width: "30%",
+                    border: "3px solid",
+                    borderWidth: "10px",
+                    color: "#3b5998",
+                  }}
+                />
+              ) : null}
+
+              <div className="card-body">
+                <h5 className="card-title">
+            
+                  <span style={{ color: "#3b5998" }}>{uposts.title}</span>
+                </h5>
+
+                <center>
+                  <a
+                    href="/comment/show"
+                    onClick={(e) =>
+                      localStorage.setItem("post", JSON.stringify(uposts))
+                    }
+                  >
+                    <FontAwesomeIcon icon={faComments} size="1x" />
+                  </a>
+                        </center>
+              </div>
+            </div>
+          ))}
         </div>
-        </>
-    )
+        </div>
+      </div>
+      </div>
+    </>
+  );
 }

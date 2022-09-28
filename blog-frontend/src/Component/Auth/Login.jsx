@@ -19,7 +19,16 @@ mutation Login($email:String!,$pass:String!){
     access_token
     user{
       id
-      name email contact_no gender 
+      name email contact_no gender avatar
+      posts{
+        title
+        content
+        file_path
+        comment{
+          comment
+          file_path
+        }
+      }
      
     }
   }
@@ -27,6 +36,7 @@ mutation Login($email:String!,$pass:String!){
 
 `;
 export default function UserLogin() {
+  localStorage.clear();
   const [Login,{loading,error,data}] =useMutation(SIGN_IN,{errorPolicy:"all"});
   const [email, setEmail] = useState("");
   const [warnemail, setwarnemail] = useState(false);
@@ -103,6 +113,7 @@ else if(pass.length<8)
    if(data){
     localStorage.setItem("access-token",data.login.access_token)
     localStorage.setItem("user_id",data.login.user.id)
+    localStorage.setItem("user",JSON.stringify(data.login.user))
     Swal.fire({
       position: 'top-end',
       icon: 'success',

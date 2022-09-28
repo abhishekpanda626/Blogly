@@ -237,13 +237,7 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
                     <FontAwesomeIcon icon={faWarning} size="sm"/> {confirmError}
                   </p>
                 </div>
-                <div className="input_text">
-                <div className="wrapper">
-                  <FontAwesomeIcon className="upload" style={{color:"#e4ac74"}} icon={faCamera} /> 
-                  <input type="file"  />
-                </div>
-                <span  className="text-dark fw-bold" >Upload Profile Picture</span>
-                </div>
+              
                 <div className="btn-login">
                   <button type="button" onClick={(e)=>submitForm(e)}>Sign up</button>
                 </div>

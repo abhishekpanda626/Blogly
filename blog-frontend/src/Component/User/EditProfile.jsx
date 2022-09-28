@@ -23,6 +23,17 @@ mutation editUser($id:ID!$name:String,$contact:String)
   updateUser(input:{id:$id,name:$name,contact_no:$contact})
   {
     id
+      name email contact_no gender avatar
+      posts{
+        title
+        content
+        file_path
+        comment{
+          comment
+          file_path
+        }
+      }
+     
   }
 }
 `;
@@ -59,7 +70,11 @@ export default function EditProfile() {
     }
     else
     {
-      edituser({variables:{id:uid,name:name,contact:contact}});
+      edituser({variables:{id:uid,name:name,contact:contact}})
+      .then((res=>{
+        localStorage.setItem("user",JSON.stringify(res.data.updateUser))
+      }))
+      ;
     navigate('/profile');
     }
     

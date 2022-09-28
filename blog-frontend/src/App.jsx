@@ -12,15 +12,26 @@ import EditComment from './Component/Comment/EditComment';
 import ShowComment from './Component/Comment/ShowComment';
 import Protected from './Protected';
 import EditPost from './Component/Post/EditPost';
+import { gql,useQuery } from '@apollo/client';
+// const USERS=gql`
+// query{
+// users{
+//   id,name,gender,email,avatar
+// }
+// }
+// `;
 function App() {
+  let token=localStorage.getItem('access-token')
+  //const{loading,error,data}=useQuery(USERS);
+  //localStorage.setItem("users",JSON.stringify(data.users));
   return (
     <Router>
   <Header/>
     <Routes>
 
       
-      <Route exact path="/" element={<UserLogin/>}/>
-      <Route exact path="*" element={<UserLogin/>}/>
+      <Route exact path="/" element={token?<Account/>:<UserLogin/>}/>
+      <Route exact path="*" element={<Home/>}/>
       <Route exact path="/signIn" element={<UserLogin/>}/>
       <Route exact path="/signUp" element={<Signup/>}/>
       
@@ -43,51 +54,3 @@ function App() {
 }
 
 export default App;
-// import { useQuery, gql } from '@apollo/client';
-// import React, { useState, useEffect } from 'react';
-// export default function App() {
-//   const [id,setId]=useState("");
-
-//   const Get_Users = gql`
-//   query  get_user{
-//     users{
-//       id
-//      name
-//        email
-//        gender
-//        posts{
-//         title
-//         comments{
-//           comment
-//         }
-//       }
-//     }
-//    }
-// `;
-// function DisplayUsers() {
-// const { loading, error, data } = useQuery(Get_Users);
-
-//   if (loading) return <p>Loading... {console.log(loading)}  </p>;
-//   if (error) return <p>Error :( {console.log(error.graphQLErrors)}  </p>;
-
-//   return data.users.map(({ id, name, email, gender }) => (
-    
-//     <div key={id}>
-//       <h3>{name}</h3>
-      
-//       <br />
-//       <b>Details:</b>
-//       <p>{email} <br /> {gender}</p>
-//       <br />
-//     </div>
-//   ));
-// }
-
-//   return (
-//     <div>
-//       <h2>My first Apollo app 🚀</h2>
-//       <br />
-//       <DisplayUsers />
-//     </div>
-//   );
-// }

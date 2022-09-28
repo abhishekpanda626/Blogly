@@ -79,7 +79,7 @@ return [
     */
 
     'links' => [
-        public_path('image') => storage_path('app/public/uploads'),
+        public_path('uploads') => storage_path('app/public/uploads'),
         public_path('posts') => storage_path('app/public/posts'),
         public_path('comments') => storage_path('app/public/comments'),
     ],

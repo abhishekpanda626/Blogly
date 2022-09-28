@@ -14,11 +14,13 @@ mutation send($comment:String!,$uid:ID!,$pid:ID!){
       title
       content
       user_id
+      file_path
       comment{
         id
         comment
         user_id
         post_id
+        file_path
       }
     }
   }
@@ -28,16 +30,19 @@ const DELETE_COMMENT=gql`
 mutation del($id:ID!){
   deleteComment(id:$id)
   {
+    id
     post{
       id
       title
       content
       user_id
+      file_path
       comment{
         id
         comment
         user_id
         post_id
+        file_path
       }
     }
   }
@@ -52,8 +57,10 @@ const DELETE_POST=gql`
 `;
 export default function ShowComment()
 {
+  const Data= new FormData();
     const[send,{loading,error,data}]=useMutation(COMMENTS,{errorPolicy:"all"});
     const[del]=useMutation(DELETE_COMMENT);
+    
     const[delPost]=useMutation(DELETE_POST);
     let post=JSON.parse(localStorage.getItem("post"));
     let uid=localStorage.getItem('user_id');
@@ -78,13 +85,26 @@ export default function ShowComment()
         setShow(false);
         localStorage.removeItem("post");
         
-        navigate('/post/add');
+        navigate('/post/show');
     }
     const handleShow = () => setShow(true);
 
 const   commentHandler=()=>{
 send({variables:{comment:comment,uid:uid,pid:post.id}})
-.then((res)=>localStorage.setItem("post",JSON.stringify(res.data.createComment.post)))
+.then((res)=>{
+  let cid=res.data.createComment.id
+    console.log(cid);
+    Data.append(
+      "operations",
+      `{"query" :" mutation FileUpload($file:Upload!,$id:ID!){uploadComment(file_path:$file,id:$id){title,file_path}}","variables": {"id":${cid}}}`
+    );
+    Data.append("map", '{"0":["variables.file"]}');
+    Data.append("0", image);
+   console.log(image,Data)
+    fetch("http://localhost:8000/graphql",{
+      method:'POST',
+    body:Data});
+  localStorage.setItem("post",JSON.stringify(res.data.createComment.post))})
 navigate('/comment/show')
 }
 function deleteComment(cid){
@@ -112,7 +132,7 @@ function DeletePost()
       'Your post has been removed..',
       'success'
     )
-    navigate('/post/add')
+    navigate('/post/show')
   }
   else{
     Swal.fire(
@@ -124,7 +144,7 @@ function DeletePost()
 })
   
   
-  navigate('/post/add')
+  navigate('/post/show')
 }
 
 function editComment(cid)
@@ -166,7 +186,7 @@ function editComment(cid)
             <div className='container '>
                     <div className='card custom-card border-0 justify-content-center align-items-center ' >
                        
-                            <img className="card-img-top" src="https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bGVuc3xlbnwwfHwwfHw%3D&w=1000&q=80"
+                            <img className="card-img-top"  src={`http://localhost:8000/${post.file_path}`}
                              alt="Card image cap" style={{height:"100%",width:"100%"}} />
                                  <div className="card-body">
                                    <div className="card-title h1">{post.title}</div>
@@ -175,10 +195,10 @@ function editComment(cid)
                 </div>
                 <table className='table'> 
                 {
-                post.comment.map(comments=>(
+                  post.comment? post.comment.map(comments=>(
                     
                         <tr key={comments.id}>
-                            <td style={{color:"#3b5998"}}>author</td>
+                            {/* <td style={{color:"#3b5998"}}>author</td> */}
                             <td>{comments.comment}</td>
                            
                              <td>
@@ -199,17 +219,14 @@ function editComment(cid)
                         </tr>
                    
 
-                ))
+                )):null
             }
              </table>
            
             
         </div></Modal.Body>
           <Modal.Footer>
-          <div className="wrapper">
-                  <FontAwesomeIcon className="upload icon-upload" icon={faCamera} />
-                  <input type="file" />
-                </div>
+        
           <div className='comment_div' >
           <input className='comment_input'placeholder='Write a comment...' onChange={(e)=>setComment(e.target.value)} type="text"/> <button className='bg-muted border-0' type="button" onClick={(e)=>commentHandler(e)} > <FontAwesomeIcon className='icon-comment' icon={faPaperPlane}/></button>
           </div>

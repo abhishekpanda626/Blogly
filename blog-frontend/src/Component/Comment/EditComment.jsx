@@ -68,7 +68,7 @@ if(new_error)
 
     return (
     <>
-      <Modal className='modal-div' show={show} onHide={handleClose}>
+      <Modal className='modal-div' show={show} backdrop="static" onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Author</Modal.Title>
         </Modal.Header>
