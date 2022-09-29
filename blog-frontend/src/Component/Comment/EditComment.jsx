@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import { useQuery,useMutation,gql } from '@apollo/client';
 const cid=localStorage.getItem("comment_id")
 const SHOW_CMT=gql`
@@ -31,6 +31,7 @@ mutation editComment($id:ID!,$comment:String)
       title
       content
       user_id
+      file_path
       comment{
         id
         comment
@@ -47,22 +48,25 @@ export default function EditComment()
 {
     const [show, setShow] = useState(true);
     const navigate=useNavigate();
+    let post=JSON.parse(localStorage.getItem("post"))
     const handleClose = () => {setShow(false); navigate('/comment/show')};
     const handleShow = () => setShow(true);
     const {loading,error,data}=useQuery(SHOW_CMT,{variables:{id:cid}});
-    const[editCmt,{new_loading,new_error,new_data}]=useMutation(EDIT_CMT,{errorPolicy:"all"},);
+    const[editCmt]=useMutation(EDIT_CMT,{errorPolicy:"all"},);
     const[editComment,setEditComment]=useState('');
  if(data)
  {
   valcomment= data.comment.comment;
   
  }
-if(new_error)
- console.log(new_error)
+
  function handleEdit()
 {
   editCmt({variables:{id:cid,comment:editComment}})
-  .then((res)=>localStorage.setItem("post",JSON.stringify(res.data.updateComment.post)));
+  .then((res)=>
+  localStorage.setItem("post",JSON.stringify(res.data.updateComment.post))
+  )
+  ;
   navigate('/comment/show');
 }
 
