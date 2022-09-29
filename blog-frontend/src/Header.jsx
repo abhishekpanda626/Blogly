@@ -17,21 +17,27 @@ import userlogo from "./Component/User/user.png";
 let id=localStorage.getItem("user_id");
 
 const USERS=gql`
-query users{
-  id name gender avatar email contact no posts{
+query all_user{
+  users{
+  id name gender avatar email contact_no posts{
     id,title,content,file_path,user_id comment{
       id,user_id,post_id,comment,file_path
     }
   }
 }
+}
 `;
 
 export default function Header() {
   let user=JSON.parse(localStorage.getItem('user'));
-  const {loading,error,data}=useQuery(USERS)
+  const {loading,error,data}=useQuery(USERS);
+  if(loading)
+  console.log(loading)
+  if(error)
+  console.log(error)
   if(data)
   {
-    console.log(data)
+    localStorage.setItem("users",JSON.stringify(data.users));
   }
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
