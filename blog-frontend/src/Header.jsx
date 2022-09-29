@@ -16,10 +16,23 @@ import { useNavigate } from "react-router-dom";
 import userlogo from "./Component/User/user.png";
 let id=localStorage.getItem("user_id");
 
+const USERS=gql`
+query users{
+  id name gender avatar email contact no posts{
+    id,title,content,file_path,user_id comment{
+      id,user_id,post_id,comment,file_path
+    }
+  }
+}
+`;
 
 export default function Header() {
   let user=JSON.parse(localStorage.getItem('user'));
-  
+  const {loading,error,data}=useQuery(USERS)
+  if(data)
+  {
+    console.log(data)
+  }
   const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a
       href=""
