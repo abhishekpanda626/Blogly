@@ -72,7 +72,15 @@ export default function ShowPost() {
 
               <div className="card-body">
                 <h5 className="card-title">
-            
+                  {users.map(all=>(
+
+                    all.id===uposts.user_id?
+                    <>
+                     <span style={{ color: "#3b5998" }}>{all.name} &nbsp;  </span>
+                     posted &nbsp;
+                    </>:null
+
+                  ))}
                   <span style={{ color: "#3b5998" }}>{uposts.title}</span>
                 </h5>
 
