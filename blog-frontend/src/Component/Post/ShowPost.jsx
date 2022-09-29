@@ -29,6 +29,7 @@ const POSTS = gql`
 
 export default function ShowPost() {
   let users = JSON.parse(localStorage.getItem("users"));
+  localStorage.removeItem("post");
   const { loading, error, data } = useQuery(POSTS);
   if (loading) return <p>Loading...</p>;
   if (error) console.warn(error);
