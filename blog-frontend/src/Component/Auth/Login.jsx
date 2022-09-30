@@ -113,37 +113,7 @@ else if(pass.length<8)
     ValidateEmail();
    Login({variables:{email:email,pass:pass}})
   
-   if(data){
-    localStorage.setItem("access-token",data.login.access_token)
-    localStorage.setItem("user_id",data.login.user.id)
-    localStorage.setItem("user",JSON.stringify(data.login.user))
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Successfully Logged in..',
-      text:"The Currency of Blogging is authenticity and trust.Happy Blogging 😍",
-      showConfirmButton: false,
-      timer: 3000
-    })
-    navigate('/profile')
-    
-  }
-  else if(error)
-  {
-    if((error.graphQLErrors[0].extensions.category==="authentication"))
-    {
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: error.graphQLErrors[0].extensions.reason,
-        text:"Please Try Again!!",
-        showConfirmButton: false,
-        timer: 3000
-      })
-     
-      
-    }
-  }
+  
  
   // else if((error.graphQLErrors[0].extensions.category==="validation"))
   // {
@@ -151,6 +121,39 @@ else if(pass.length<8)
 
   //   setPassError(error.graphQLErrors[0].extensions.validation["input.password"])
   // }
+  }
+  function handleAlert(){
+    if(data){
+      localStorage.setItem("access-token",data.login.access_token)
+      localStorage.setItem("user_id",data.login.user.id)
+      localStorage.setItem("user",JSON.stringify(data.login.user))
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Successfully Logged in..',
+        text:"The Currency of Blogging is authenticity and trust.Happy Blogging 😍",
+        showConfirmButton: false,
+        timer: 3000
+      })
+      navigate('/profile')
+      
+    }
+    else if(error)
+    {
+      if((error.graphQLErrors[0].extensions.category==="authentication"))
+      {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: error.graphQLErrors[0].extensions.reason,
+          text:"Please Try Again!!",
+          showConfirmButton: false,
+          timer: 3000
+        })
+       
+        
+      }
+    }
   }
   function showPassword() {
     if (eye) {
@@ -218,7 +221,7 @@ else if(pass.length<8)
                   <br />
                 </div>
                 <div id="login" className="btn-login">
-                  <button type="button" onClick={(e)=>loginHandler(e)}>Sign in</button>
+                  <button type="button" onClick={(e)=>handleAlert()} onMouseOver={(e)=>loginHandler(e)}>Sign in</button>
                 </div>
               </form>
 
