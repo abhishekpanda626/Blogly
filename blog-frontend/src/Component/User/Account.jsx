@@ -5,7 +5,7 @@ import { useMutation,useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import userlogo from "./user.png";
 import Swal from "sweetalert2";
-const id=localStorage.getItem("user_id");
+
 
 const UPLOAD=gql`
 mutation me($id:ID!,$avatar:String){
@@ -52,6 +52,8 @@ const ME=gql`query me($id:ID!){user(id:$id){
 }}`;
 export default function Account() {
   let users = JSON.parse(localStorage.getItem("users"));
+  const id=localStorage.getItem("user_id");
+
   const { loading, error, data } = useQuery(ME,{variables:{id:id}});
    const[ updateImg]=useMutation(UPLOAD,{errorPolicy:"all"});
    const[ delUser]=useMutation(DEL_USER);
