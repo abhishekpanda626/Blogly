@@ -55,9 +55,11 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
 
   const submitForm=(e)=> {
     e.preventDefault();
-
      Register({  variables:{name:name,email:email,password:pass,confirm:confirm,gender:gender,contact:contact}});
- 
+     
+  }
+
+  function handleAlert(){
     if(data)
     {
 
@@ -104,7 +106,6 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
    
       }
     }
-   
   }
   function showPassword() {
     if (eye) {
@@ -239,7 +240,7 @@ mutation Register($name:String!,$email:String!,$password:String!,$confirm:String
                 </div>
               
                 <div className="btn-login">
-                  <button type="button" onClick={(e)=>submitForm(e)}>Sign up</button>
+                  <button type="button" onClick={(e)=>handleAlert()} onMouseOver={(e)=>submitForm(e)}>Sign up</button>
                 </div>
               </form>
 
