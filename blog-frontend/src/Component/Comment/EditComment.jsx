@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { json, useNavigate } from 'react-router-dom';
 import { useQuery,useMutation,gql } from '@apollo/client';
-const cid=localStorage.getItem("comment_id")
+import ShowComment from './ShowComment';
+
+let post=JSON.parse(localStorage.getItem("post"))
 const SHOW_CMT=gql`
 query mycomment($id:ID!)
 {
@@ -43,25 +45,37 @@ mutation editComment($id:ID!,$comment:String)
   }
 `;
 
-var valcomment
+let valcomment;
 export default function EditComment()
 {
+
     const [show, setShow] = useState(true);
     const navigate=useNavigate();
-    let post=JSON.parse(localStorage.getItem("post"))
+    const cid=localStorage.getItem("comment_id")
     const handleClose = () => {setShow(false); navigate('/comment/show')};
-    const handleShow = () => setShow(true);
-    const {loading,error,data}=useQuery(SHOW_CMT,{variables:{id:cid}});
+   
+   
     const[editCmt]=useMutation(EDIT_CMT,{errorPolicy:"all"},);
-    const[editComment,setEditComment]=useState('');
- if(data)
- {
-  valcomment= data.comment.comment;
-  
- }
+     
+const {loading,error,data}=useQuery(SHOW_CMT,{variables:{id:cid}});
+const[editComment,setEditComment]=useState('');
+const[comment,showComment]=useState('');
+
+useEffect(()=>{
+  if(data)
+  {
+    showComment(data.comment.comment);
+ 
+  }
+})
+
+
+
 
  function handleEdit()
 {
+//  e.preventDefault();
+  console.log(editComment)
   editCmt({variables:{id:cid,comment:editComment}})
   .then((res)=>
   localStorage.setItem("post",JSON.stringify(res.data.updateComment.post))
@@ -82,7 +96,7 @@ export default function EditComment()
               <Form.Label>Comment</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={valcomment}
+                defaultValue={comment}
                 autoFocus
                 onChange={(e)=>setEditComment(e.target.value)}
               />
@@ -94,7 +108,7 @@ export default function EditComment()
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={(e)=>{handleEdit()}}>
+          <Button variant="primary" onClick={(e)=>handleEdit(e)}>
             Edit Changes
           </Button>
         </Modal.Footer>
