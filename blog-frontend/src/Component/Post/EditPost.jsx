@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { useQuery,useMutation,gql } from '@apollo/client';
+import { useEffect } from 'react';
 
 const SHOW_POST=gql`
 query mypost($id:ID!)
@@ -43,7 +44,7 @@ mutation editPost($id:ID!,$title:String,$content:String,$file_path:String)
   }
 `;
 
-let valtitle,valcontent,valfile;
+
 export default function EditPost()
 {
   const Data=new FormData();
@@ -57,14 +58,19 @@ export default function EditPost()
     const[editTitle,setTitle]=useState('');
     const[editContent,setContent]=useState('');
     const[file,setFile]=useState('');
- if(data)
- {
-     valtitle=data.post.title;
-     valcontent=data.post.content;
-     valfile=data.post.file_path;
-     
- }
-
+    const[Title,showTitle]=useState('');
+    const[Content,showContent]=useState('');
+    const[File,showFile]=useState('');
+useEffect(()=>{
+  if(data)
+  {
+      showTitle(data.post.title);
+      showContent(data.post.content);
+      showFile(data.post.file_path);
+      
+  }
+ 
+})
  async function handleEdit()
  {
 
@@ -81,8 +87,8 @@ export default function EditPost()
     body:Data});
     result= await result.json();
     
-    console.log(result.uploadPost.file_path)
-    editPost({variables:{id:result.uploadPost.id,file_path:result.uploadPost.file_path}})
+    console.log(result.data.uploadPost.file_path)
+    editPost({variables:{id:result.data.uploadPost.id,file_path:result.data.uploadPost.file_path}})
     .then((res)=>localStorage.setItem("post",JSON.stringify(res.data.updatePost)));
   }
 
@@ -103,8 +109,8 @@ navigate('/post/show');
               <Form.Label>title</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={valtitle}
-                onMouseOver={(e)=>setTitle(valtitle)}
+                defaultValue={Title}
+                onFocus={(e)=>setTitle(Title)}
                 autoFocus
                 onChange={(e)=>setTitle(e.target.value)}
               />
@@ -114,17 +120,17 @@ navigate('/post/show');
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Content</Form.Label>
-              <Form.Control as="textarea" defaultValue={valcontent} onMouseOver={(e)=>setContent(valcontent)} onChange={(e)=>setContent(e.target.value)} rows={3} />
+              <Form.Control as="textarea" defaultValue={Content} onFocus={(e)=>setContent(Content)} onChange={(e)=>setContent(e.target.value)} rows={3} />
               <div className="wrapper">
-                     { valfile? <img
+                     { File? <img
                       src=  {
-                         `http://localhost:8000/${valfile}`
+                         `http://localhost:8000/${File}`
                         }
                         alt="Generic placeholder image"
                       className=" img-prompt img-fluid img-thumbnail rounded-circle mt-4 mb-2"
                       style={{ width: "150px",height:"150px", zIndex: "1" }}
                     />:null}
-                  <input type="file" onChange={(e)=>setFile(e.target.files[0])}  />
+                  <input type="file"  onChange={(e)=>setFile(e.target.files[0])}  />
                 </div>
             </Form.Group>
           </Form>
