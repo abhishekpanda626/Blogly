@@ -75,7 +75,7 @@ useEffect(()=>{
  function handleEdit()
 {
 //  e.preventDefault();
-  console.log(editComment)
+ // console.log(editComment)
   editCmt({variables:{id:cid,comment:editComment}})
   .then((res)=>
   localStorage.setItem("post",JSON.stringify(res.data.updateComment.post))
