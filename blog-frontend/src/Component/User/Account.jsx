@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUserPen } from "@fortawesome/free-solid-svg-icons";
-import { useMutation, gql } from '@apollo/client';
+import { useMutation,useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import userlogo from "./user.png";
 import Swal from "sweetalert2";
-let id=localStorage.getItem("user_id");
+const id=localStorage.getItem("user_id");
 
 const UPLOAD=gql`
 mutation me($id:ID!,$avatar:String){
@@ -34,14 +34,36 @@ mutation del_user($id:ID!)
   }
 }
 `;
+const ME=gql`query me($id:ID!){user(id:$id){
+      id
+      name email contact_no gender avatar
+      posts{
+        title
+        content
+        file_path
+        user_id
+        comment{
+          comment
+          file_path
+          post_id
+          user_id
+        }
+      }
+}}`;
 export default function Account() {
+  let users = JSON.parse(localStorage.getItem("users"));
+  const { loading, error, data } = useQuery(ME,{variables:{id:id}});
    const[ updateImg]=useMutation(UPLOAD,{errorPolicy:"all"});
    const[ delUser]=useMutation(DEL_USER);
-   let user=JSON.parse(localStorage.getItem('user'));
+   //const user=JSON.parse(localStorage.getItem('user'));
   const navigate=useNavigate();
   const[file,setFile]=useState('');
-  // if (loading) return <p>Loading...</p>;
-  // if(error) console.log(error);
+   if (loading) return <p>Loading...</p>;
+   if(error) console.log(error);
+   if(data)
+   {
+    console.log(data)
+   }
   const AccountDelete=()=>{
     Swal.fire({
       title: 'Are you sure?',
@@ -127,8 +149,8 @@ async function uploadImage()
                   >
                       <div className="wrapper">
                       <img
-                      src=  {user.avatar?
-                         `http://localhost:8000/${user.avatar}`
+                      src=  {data.user.avatar?
+                         `http://localhost:8000/${data.user.avatar}`
                          : 
                          userlogo
                         }
@@ -152,7 +174,7 @@ async function uploadImage()
                   
                   </div>
                   <div className="ms-3" style={{ marginTop: "130px" }}>
-                    <h5>{user.name}</h5>
+                    <h5>{data.user.name}</h5>
                 
                   </div>
                   
@@ -167,14 +189,14 @@ async function uploadImage()
                   <div className="mb-5">
                     <p className="lead fw-normal mb-1">Contact</p>
                     <div className="p-4" style={{ backgroundColor: "#f8f9fa" }}>
-                      <p className="font-italic mb-1">{user.contact_no}</p>
-                      <p className="font-italic mb-0">{user.email}</p>
+                      <p className="font-italic mb-1">{data.user.contact_no}</p>
+                      <p className="font-italic mb-0">{data.user.email}</p>
                     </div>
                   </div>
                   <div className="mb-5">
                     <p className="lead fw-normal mb-1 headings" >Posts </p>
                    {
-                      user.posts.map(post=>(
+                      data.user.posts.map(post=>(
                         
                         <div className="p-4" style={{ backgroundColor: "#f8f9fa" }} key={post.id}>
                         <p className="font-italic mb-1 text-success">{post.title}</p>
@@ -196,8 +218,12 @@ async function uploadImage()
                       {
                           post.comment.map(comments=>(
                              <div  className=" p-4" style={{ backgroundColor: "#f8f9fa" }} key={comments.id}>
-                              <FontAwesomeIcon style={{color:"#3b5998"}} icon={faComment}/> <br />
-                              
+                              <FontAwesomeIcon style={{color:"#3b5998"}} icon={faComment}/> 
+                             &nbsp; <span style={{color: "#3b5998",fontWeight:"bold" }}>
+                              {
+                                users.map(all=>all.id===comments.user_id?all.name:null)
+                              }
+                              </span>                           
                              <p className="font-italic text-muted mb-1">{comments.comment}</p>
                              {/* <p className="font-italic mb-1">{comments.by.name}</p> */}
                              </div>

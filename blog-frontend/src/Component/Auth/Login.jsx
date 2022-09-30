@@ -24,9 +24,12 @@ mutation Login($email:String!,$pass:String!){
         title
         content
         file_path
+        user_id
         comment{
           comment
           file_path
+          post_id
+          user_id
         }
       }
      
