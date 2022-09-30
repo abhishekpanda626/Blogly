@@ -67,7 +67,6 @@ const postHandler=(e)=>{
     Data.append("map", '{"0":["variables.file"]}');
     Data.append("0", file);
   
-   //console.log(file,Data)
     fetch("http://localhost:8000/graphql",{
       method:'POST',
     body:Data});
@@ -77,8 +76,10 @@ const postHandler=(e)=>{
       showConfirmButton: false,
       timer: 1500
     })
-  })
-  navigate('/post/show');
+    navigate('/post/show');
+  }
+  )
+ 
  
 }
   return (
