@@ -70,8 +70,8 @@ export default function ShowComment() {
   const [del] = useMutation(DELETE_COMMENT);
   let users = JSON.parse(localStorage.getItem("users"));
   const [delPost] = useMutation(DELETE_POST);
-  let post = JSON.parse(localStorage.getItem("post"));
-  let uid = localStorage.getItem("user_id");
+  const post = JSON.parse(localStorage.getItem("post"));
+  const uid = localStorage.getItem("user_id");
   const navigate = useNavigate();
   const [comment, setComment] = useState("");
   const [image, setImage] = useState("");
@@ -95,7 +95,7 @@ export default function ShowComment() {
 
     navigate("/post/show");
   };
-  const handleShow = () => setShow(true);
+
 
   const commentHandler = (e) => {
     e.preventDefault();
@@ -150,10 +150,11 @@ export default function ShowComment() {
           "Your post is safe.Why not add a new one.",
           "success"
         );
+        navigate("/post/show");
       }
     });
 
-    navigate("/post/show");
+    
   }
 
   function editComment(cid) {
