@@ -31,7 +31,7 @@ function App() {
 
       
       <Route exact path="/" element={token?<Account/>:<UserLogin/>}/>
-      <Route exact path="*" element={<Home/>}/>
+      <Route exact path="*" element={token?<Account/>:<UserLogin/>}/>
       <Route exact path="/signIn" element={<UserLogin/>}/>
       <Route exact path="/signUp" element={<Signup/>}/>
       

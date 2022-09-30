@@ -14,7 +14,7 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import { useQuery, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import userlogo from "./Component/User/user.png";
-let id=localStorage.getItem("user_id");
+
 
 const USERS=gql`
 query all_user{
@@ -29,7 +29,8 @@ query all_user{
 `;
 
 export default function Header() {
-  let user=JSON.parse(localStorage.getItem('user'));
+  const id=localStorage.getItem("user_id");
+  const user=JSON.parse(localStorage.getItem('user'));
   const {loading,error,data}=useQuery(USERS);
  
   if(error)
@@ -57,7 +58,7 @@ export default function Header() {
 
   const logOutHandler=()=>{
     localStorage.clear();
-    navigate('/');
+    navigate('/signin');
   }
   return (
     <>
